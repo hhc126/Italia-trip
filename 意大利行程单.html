@@ -245,6 +245,10 @@
   }
   .detail .icon { font-size: 16px; width: 24px; text-align: center; }
   .detail .val { flex: 1; }
+  .detail.map-link { cursor: pointer; transition: background 0.2s; border-radius: 8px; margin-left: -6px; padding-left: 6px; margin-right: -6px; padding-right: 6px; }
+  .detail.map-link:active { background: #f2f2f7; }
+  .detail.map-link .val { color: var(--accent); }
+  .detail.map-link .nav-arrow { font-size: 13px; color: var(--text-tertiary); margin-left: 4px; white-space: nowrap; }
   .nights-badge {
     display: inline-block;
     font-size: 12px;
@@ -297,25 +301,84 @@
   .ticket-inline { margin-top: 14px; }
   .ticket-divider { height: 1px; background: #e5e5ea; margin-bottom: 14px; }
   .ticket-inner {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 16px;
-    background: #faf4ed;
-    border-radius: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #faf4ed, #f5ede0);
+    border-radius: 14px;
+    border: 1px solid #e8dcc8;
   }
-  .ticket-icon { font-size: 24px; line-height: 1; }
+  .ticket-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .ticket-icon { font-size: 28px; line-height: 1; }
   .ticket-title {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
+    color: var(--text);
+  }
+  .ticket-status {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 10px;
+    background: #27ae60;
+    color: #fff;
+    margin-left: auto;
+  }
+  .ticket-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    margin-bottom: 10px;
+  }
+  .ticket-grid .label {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .ticket-grid .value {
+    font-size: 13px;
+    font-weight: 700;
     color: var(--text);
     margin-bottom: 4px;
   }
-  .ticket-meta {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 600;
+  .ticket-pnr {
+    font-family: -apple-system, "SF Mono", monospace;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 1px;
   }
+  .ticket-note {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .ticket-pdf-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.2s;
+  }
+  .ticket-pdf-btn:active { opacity: 0.8; }
 
   /* Summary */
   .summary { background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow-soft); }
@@ -488,7 +551,7 @@
     <div class="city-body">
       <div class="hotel-name">乔伊酒店</div>
       <div class="hotel-name-en">Gioì Hotel Sorrento</div>
-      <div class="detail"><span class="icon">📍</span><span class="val">Via Bagnulo, 79, Piano di Sorrento</span></div>
+      <div class="detail map-link" onclick="window.open('https://maps.apple.com/?ll=40.6263,14.3758&q=Gioì+Hotel+Sorrento', '_blank')"><span class="icon">📍</span><span class="val">Via Bagnulo, 79, Piano di Sorrento</span><span class="nav-arrow">导航 ›</span></div>
       <div class="detail"><span class="icon">🛏️</span><span class="val">带园景的高级房</span></div>
       <div class="city-info-bar" data-lat="40.6263" data-lng="14.3758">
         <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
@@ -511,7 +574,7 @@
     <div class="city-body">
       <div class="hotel-name">Ruby朱莉亚酒店</div>
       <div class="hotel-name-en">Ruby Giulia Hotel Rome</div>
-      <div class="detail"><span class="icon">📍</span><span class="val">Via Agostino Depretis 45A, Roma</span></div>
+      <div class="detail map-link" onclick="window.open('https://maps.apple.com/?ll=41.8965,12.4964&q=Ruby+Giulia+Hotel+Rome', '_blank')"><span class="icon">📍</span><span class="val">Via Agostino Depretis 45A, Roma</span><span class="nav-arrow">导航 ›</span></div>
       <div class="detail"><span class="icon">🛏️</span><span class="val">Lovely可爱房</span></div>
       <div class="city-info-bar" data-lat="41.9028" data-lng="12.4964">
         <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
@@ -519,6 +582,44 @@
         <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
       </div>
       <span class="nights-badge">4 晚</span>
+      <div class="ticket-inline">
+        <div class="ticket-divider"></div>
+        <div class="ticket-inner">
+          <div class="ticket-header">
+            <span class="ticket-icon">🎫</span>
+            <div class="ticket-title">斗兽场 · 阁楼体验</div>
+            <span class="ticket-status">已确认</span>
+          </div>
+          <div class="ticket-grid">
+            <div>
+              <div class="label">入场日期</div>
+              <div class="value">7月17日（周五）</div>
+            </div>
+            <div>
+              <div class="label">入场时间</div>
+              <div class="value">11:50</div>
+            </div>
+            <div>
+              <div class="label">票种</div>
+              <div class="value">Full Experience - Attico</div>
+            </div>
+            <div>
+              <div class="label">人数</div>
+              <div class="value">2 人 · €48.00</div>
+            </div>
+            <div>
+              <div class="label">预订码 PNR</div>
+              <div class="value ticket-pnr">OCO4217126</div>
+            </div>
+            <div>
+              <div class="label">购票人</div>
+              <div class="value">haochen hou</div>
+            </div>
+          </div>
+          <div class="ticket-note">⚠️ 提前 15 分钟到达入口，需出示证件。斗兽场参观时间 90 分钟，到后立即乘电梯上阁楼。门票有效期 2 天，还含古罗马广场、帕拉蒂尼山、帝国论坛。禁止携带背包/行李箱。</div>
+          <a class="ticket-pdf-btn" id="colosseoPdfBtn" href="#">📄 查看电子票 PDF</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -534,7 +635,7 @@
     <div class="city-body">
       <div class="hotel-name">赤宝石比亚酒店</div>
       <div class="hotel-name-en">Ruby Bea Hotel Florence</div>
-      <div class="detail"><span class="icon">📍</span><span class="val">Piazza della Libertà 16, Firenze</span></div>
+      <div class="detail map-link" onclick="window.open('https://maps.apple.com/?ll=43.7796,11.2558&q=Ruby+Bea+Hotel+Florence', '_blank')"><span class="icon">📍</span><span class="val">Piazza della Libertà 16, Firenze</span><span class="nav-arrow">导航 ›</span></div>
       <div class="detail"><span class="icon">🛏️</span><span class="val">WOW客房</span></div>
       <div class="city-info-bar" data-lat="43.7696" data-lng="11.2558">
         <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
@@ -545,12 +646,39 @@
       <div class="ticket-inline">
         <div class="ticket-divider"></div>
         <div class="ticket-inner">
-          <span class="ticket-icon">🎫</span>
-          <div>
+          <div class="ticket-header">
+            <span class="ticket-icon">🎫</span>
             <div class="ticket-title">乌菲兹美术馆</div>
-            <div class="ticket-meta">7月19日（周日） 08:15 · Passepartout 5日通票</div>
-            <div class="ticket-meta">2张 · €80.00 · 编号 V9TBR0UW</div>
+            <span class="ticket-status">已确认</span>
           </div>
+          <div class="ticket-grid">
+            <div>
+              <div class="label">入场日期</div>
+              <div class="value">7月19日（周日）</div>
+            </div>
+            <div>
+              <div class="label">入场时间</div>
+              <div class="value">08:15</div>
+            </div>
+            <div>
+              <div class="label">票种</div>
+              <div class="value">Passepartout 5日通票</div>
+            </div>
+            <div>
+              <div class="label">人数</div>
+              <div class="value">2 人 · €80.00</div>
+            </div>
+            <div>
+              <div class="label">预订码 PNR</div>
+              <div class="value ticket-pnr">V9TBR0UW</div>
+            </div>
+            <div>
+              <div class="label">购票人</div>
+              <div class="value">Hou Haochen</div>
+            </div>
+          </div>
+          <div class="ticket-note">⚠️ 请提前 15 分钟到达入口处，出示手机上的电子票即可。门票不可退款。5日通票有效期内可多次进入乌菲兹美术馆。</div>
+          <a class="ticket-pdf-btn" id="uffiziPdfBtn" href="#">📄 查看电子票 PDF</a>
         </div>
       </div>
     </div>
@@ -568,7 +696,7 @@
     <div class="city-body">
       <div class="hotel-name">博洛尼亚贝斯特韦斯特盛品酒店</div>
       <div class="hotel-name-en">Best Western Plus Hotel Bologna</div>
-      <div class="detail"><span class="icon">📍</span><span class="val">Via Piave, 214, Venezia</span></div>
+      <div class="detail map-link" onclick="window.open('https://maps.apple.com/?ll=45.4408,12.3255&q=Best+Western+Plus+Hotel+Bologna+Venice', '_blank')"><span class="icon">📍</span><span class="val">Via Piave, 214, Venezia</span><span class="nav-arrow">导航 ›</span></div>
       <div class="detail"><span class="icon">🛏️</span><span class="val">高级房</span></div>
       <div class="city-info-bar" data-lat="45.4408" data-lng="12.3155">
         <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
@@ -591,7 +719,7 @@
     <div class="city-body">
       <div class="hotel-name">星际埃科酒店</div>
       <div class="hotel-name-en">Starhotels E.c.ho.</div>
-      <div class="detail"><span class="icon">📍</span><span class="val">Vle Andrea Doria, 4, Milano</span></div>
+      <div class="detail map-link" onclick="window.open('https://maps.apple.com/?ll=45.4742,9.1800&q=Starhotels+E.c.ho.+Milan', '_blank')"><span class="icon">📍</span><span class="val">Vle Andrea Doria, 4, Milano</span><span class="nav-arrow">导航 ›</span></div>
       <div class="detail"><span class="icon">🛏️</span><span class="val">高级房</span></div>
       <div class="city-info-bar" data-lat="45.4642" data-lng="9.1900">
         <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
@@ -884,6 +1012,25 @@
       timeout: 8000,
       maximumAge: 60000
     });
+  }
+})();
+
+// ============================================================
+//  电子票 PDF 链接
+// ============================================================
+(function() {
+  var pdfBtn = document.getElementById('uffiziPdfBtn');
+  if (pdfBtn) {
+    // 源文件用相对路径，部署版会被替换为 base64 data URI
+    pdfBtn.setAttribute('href', 'tickets/uffizi-tickets.pdf');
+    pdfBtn.setAttribute('target', '_blank');
+    pdfBtn.setAttribute('download', 'Uffizi-Tickets.pdf');
+  }
+  var colosseoBtn = document.getElementById('colosseoPdfBtn');
+  if (colosseoBtn) {
+    colosseoBtn.setAttribute('href', 'tickets/colosseo-tickets.pdf');
+    colosseoBtn.setAttribute('target', '_blank');
+    colosseoBtn.setAttribute('download', 'Colosseo-Tickets.pdf');
   }
 })();
 </script>
