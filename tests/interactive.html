@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>意大利行程单 · 地理位置定位测试</title>
+<style>
+:root {
+  --bg: #f5f5f7; --card: #ffffff; --text: #1c1c1e; --text-secondary: #6e6e73;
+  --text-tertiary: #8e8e93; --accent: #007aff; --accent-warm: #ff9500;
+  --italy-red: #c0392b; --italy-green: #27ae60; --italy-gold: #d4a373;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08); --shadow-soft: 0 2px 12px rgba(0,0,0,0.06);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+.hero {
+  position: relative;
+  background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.45)), url('images/rome.png') center/cover no-repeat;
+  padding: 48px 20px 64px; text-align: center; color: #fff; overflow: hidden;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.hero .sub { font-size: 15px; font-weight: 500; opacity: 0.92; }
+.hero .nights {
+  display: inline-block; margin-top: 16px; font-size: 13px; font-weight: 700;
+  padding: 6px 16px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px; backdrop-filter: blur(8px);
+}
+.container { max-width: 680px; margin: -28px auto 0; padding: 0 16px 32px; position: relative; z-index: 2; }
+.section { margin-bottom: 24px; }
+.section-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; padding: 0 4px 12px; }
+
+.city-card { background: var(--card); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 16px; transition: box-shadow 0.6s ease, transform 0.6s ease; }
+.city-hero { position: relative; height: 200px; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
+.city-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1)); }
+.city-hero-content { position: relative; z-index: 1; color: #fff; }
+.city-hero .city-name { font-size: 26px; font-weight: 800; }
+.city-hero .city-en { font-size: 13px; font-weight: 600; opacity: 0.85; margin-top: 2px; }
+.city-hero .city-dates { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12px; font-weight: 700; padding: 5px 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; backdrop-filter: blur(8px); }
+.city-body { padding: 18px; }
+.hotel-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+.hotel-name-en { font-size: 13px; color: var(--text-secondary); font-weight: 600; margin-bottom: 14px; }
+.detail { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 8px; }
+.detail .icon { font-size: 16px; width: 24px; text-align: center; }
+.nights-badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px; background: #e8f2ff; color: var(--accent); margin-top: 12px; }
+
+/* 高亮态 */
+.city-card.current { box-shadow: 0 0 0 3px var(--accent), 0 8px 32px rgba(0,122,255,0.2); transform: scale(1.01); }
+.city-card.current .city-hero::before {
+  content: '📍 你在这里'; position: absolute; top: 12px; right: 16px; z-index: 3;
+  font-size: 11px; font-weight: 800; padding: 4px 12px; background: var(--accent);
+  color: #fff; border-radius: 12px; animation: locPulse 2s ease-in-out;
+}
+@keyframes locPulse { 0%{transform:scale(0.95);opacity:0} 60%{transform:scale(1.02);opacity:1} 100%{transform:scale(1);opacity:1} }
+
+/* Footer */
+.footer { text-align: center; font-size: 12px; color: var(--text-tertiary); padding: 16px 0; }
+
+/* ─────── 测试面板 ─────── */
+.test-panel {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;
+  background: rgba(30,30,30,0.92); backdrop-filter: blur(16px);
+  border-radius: 20px; padding: 12px 8px; display: flex; gap: 6px; flex-wrap: wrap;
+  justify-content: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  max-width: 95vw;
+}
+.test-panel button {
+  border: none; border-radius: 14px; padding: 8px 14px; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  background: rgba(255,255,255,0.12); color: #ccc;
+}
+.test-panel button:hover { background: rgba(255,255,255,0.25); color: #fff; }
+.test-panel button.active { background: var(--accent); color: #fff; }
+.test-panel button.reset { background: rgba(255,59,48,0.4); color: #fff; font-size: 11px; }
+.test-panel .label {
+  color: rgba(255,255,255,0.5); font-size: 10px; font-weight: 700; text-transform: uppercase;
+  display: flex; align-items: center; padding: 0 6px; letter-spacing: 1px;
+}
+
+/* 提示条 */
+.loc-bar {
+  display: none; align-items: center; justify-content: center; gap: 8px;
+  background: #007aff; border-radius: 14px; padding: 10px 16px; margin-bottom: 20px;
+  font-size: 13px; font-weight: 700; color: #fff; animation: locPulse 2s ease-in-out;
+}
+.loc-bar.show { display: flex; }
+.loc-bar .loc-distance { font-weight: 600; opacity: 0.8; font-size: 12px; }
+.loc-bar.reset-bar { background: var(--accent-warm); }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>🧪 意大利之旅 · 定位测试</h1>
+    <div class="sub">点击底部按钮模拟各城市 GPS 位置</div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="loc-bar" id="locBar">
+  <span id="locText">检测中...</span>
+  <span class="loc-distance" id="locDist"></span>
+</div>
+
+<!-- Flights -->
+<div class="section">
+  <div class="section-title">✈️ 航班</div>
+  <div class="city-card"><div class="city-body" style="text-align:center;font-size:14px;padding:20px;">
+    CA623 北京→罗马 7/11 · CA750 米兰→北京 7/23
+  </div></div>
+</div>
+
+<!-- Cities -->
+<div class="section">
+  <div class="section-title">🏨 酒店 · 点击测试</div>
+
+  <div class="city-card" id="city-sorrento">
+    <div class="city-hero" style="background-image: url('images/sorrento.png');">
+      <div class="city-hero-content">
+        <div class="city-name">索伦托</div>
+        <div class="city-en">Sorrento · 阿马尔菲海岸</div>
+        <div class="city-dates">7/11 — 7/14 · 3晚</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">乔伊酒店</div>
+      <div class="hotel-name-en">Gioì Hotel Sorrento</div>
+      <div class="detail"><span class="icon">📍</span>Via Bagnulo, 79, Piano di Sorrento</div>
+    </div>
+  </div>
+
+  <div class="city-card" id="city-rome">
+    <div class="city-hero" style="background-image: url('images/rome.png');">
+      <div class="city-hero-content">
+        <div class="city-name">罗马</div>
+        <div class="city-en">Rome · 永恒之城</div>
+        <div class="city-dates">7/14 — 7/18 · 4晚</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">Ruby朱莉亚酒店</div>
+      <div class="hotel-name-en">Ruby Giulia Hotel Rome</div>
+      <div class="detail"><span class="icon">📍</span>Via Agostino Depretis 45A, Roma</div>
+    </div>
+  </div>
+
+  <div class="city-card" id="city-florence">
+    <div class="city-hero" style="background-image: url('images/florence.png');">
+      <div class="city-hero-content">
+        <div class="city-name">佛罗伦萨</div>
+        <div class="city-en">Florence · 文艺复兴摇篮</div>
+        <div class="city-dates">7/18 — 7/21 · 3晚</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">赤宝石比亚酒店</div>
+      <div class="hotel-name-en">Ruby Bea Hotel Florence</div>
+      <div class="detail"><span class="icon">📍</span>Piazza della Libertà 16, Firenze</div>
+    </div>
+  </div>
+
+  <div class="city-card" id="city-venice">
+    <div class="city-hero" style="background-image: url('images/venice.png');">
+      <div class="city-hero-content">
+        <div class="city-name">威尼斯</div>
+        <div class="city-en">Venice · 水上之城</div>
+        <div class="city-dates">7/21 — 7/22 · 1晚</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">贝斯特韦斯特盛品酒店</div>
+      <div class="hotel-name-en">Best Western Plus Hotel Bologna</div>
+      <div class="detail"><span class="icon">📍</span>Via Piave, 214, Venezia</div>
+    </div>
+  </div>
+
+  <div class="city-card" id="city-milan">
+    <div class="city-hero" style="background-image: url('images/milan.png');">
+      <div class="city-hero-content">
+        <div class="city-name">米兰</div>
+        <div class="city-en">Milan · 时尚与设计之都</div>
+        <div class="city-dates">7/22 — 7/23 · 1晚</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">星际埃科酒店</div>
+      <div class="hotel-name-en">Starhotels E.c.ho.</div>
+      <div class="detail"><span class="icon">📍</span>Vle Andrea Doria, 4, Milano</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">定位测试页 · 2026-07-03</div>
+</div>
+
+<!-- 测试面板 -->
+<div class="test-panel" id="testPanel">
+  <span class="label">模拟位置</span>
+  <button onclick="simLocation('sorrento',  40.6263, 14.3758, '索伦托', '7/11-14')">🍋 索伦托</button>
+  <button onclick="simLocation('rome',      41.9028, 12.4964, '罗马', '7/14-18')">🏛️ 罗马</button>
+  <button onclick="simLocation('florence',  43.7696, 11.2558, '佛罗伦萨', '7/18-21')">🎨 佛罗伦萨</button>
+  <button onclick="simLocation('venice',    45.4408, 12.3155, '威尼斯', '7/21-22')">🚤 威尼斯</button>
+  <button onclick="simLocation('milan',     45.4642,  9.1900, '米兰', '7/22-23')">🛍️ 米兰</button>
+  <span class="label">边界</span>
+  <button onclick="simBoundary('Orvieto',     42.7186, 12.1113)">罗马↔佛罗伦萨</button>
+  <button onclick="simBoundary('Bologna',     44.4949, 11.3426)">佛罗伦萨↔威尼斯</button>
+  <button onclick="simBoundary('Verona',      45.4384, 10.9916)">威尼斯↔米兰</button>
+  <span class="label">其他</span>
+  <button onclick="simBoundary('北京',        39.9042, 116.4074)">🌏 北京</button>
+  <button class="reset" onclick="resetAll()">✕ 清除</button>
+</div>
+
+<script>
+(function() {
+  const cities = [
+    { id: 'city-sorrento', name: '索伦托',  lat: 40.6263, lng: 14.3758, dates: '7/11-14' },
+    { id: 'city-rome',     name: '罗马',     lat: 41.9028, lng: 12.4964, dates: '7/14-18' },
+    { id: 'city-florence', name: '佛罗伦萨', lat: 43.7696, lng: 11.2558, dates: '7/18-21' },
+    { id: 'city-venice',   name: '威尼斯',   lat: 45.4408, lng: 12.3155, dates: '7/21-22' },
+    { id: 'city-milan',    name: '米兰',     lat: 45.4642, lng:  9.1900, dates: '7/22-23' },
+  ];
+
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function findNearest(lat, lng) {
+    let nearest = null, minDist = Infinity;
+    cities.forEach(c => { const d = haversine(lat, lng, c.lat, c.lng); if (d < minDist) { minDist = d; nearest = c; } });
+    return { city: nearest, distance: minDist };
+  }
+
+  const FAR_THRESHOLD = 200;
+  const locBar = document.getElementById('locBar');
+  const locText = document.getElementById('locText');
+  const locDist = document.getElementById('locDist');
+
+  function highlightCity(city, distance) {
+    document.querySelectorAll('.city-card.current').forEach(el => el.classList.remove('current'));
+    const el = document.getElementById(city.id);
+    if (el) {
+      el.classList.add('current');
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
+    locText.textContent = '📍 你在「' + city.name + '」附近 (' + city.dates + ')';
+    locDist.textContent = distance < 1 ? '< ' + Math.round(distance*1000) + 'm' : '约 ' + distance.toFixed(0) + ' km';
+    locBar.classList.add('show');
+    locBar.classList.remove('reset-bar');
+  }
+
+  function showFar(city, distance) {
+    locText.textContent = '🌏 你离意大利还有 ' + distance.toFixed(0) + ' km，最近: ' + city.name;
+    locDist.textContent = '✈️ 还没出发呢';
+    locBar.classList.add('show', 'reset-bar');
+  }
+
+  window.simLocation = function(id, lat, lng, name, dates) {
+    document.querySelectorAll('.test-panel button:not(.reset)').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const result = findNearest(lat, lng);
+    if (result.distance > FAR_THRESHOLD) {
+      document.querySelectorAll('.city-card.current').forEach(el => el.classList.remove('current'));
+      showFar(result.city, result.distance);
+    } else {
+      highlightCity({ id: 'city-' + id, name: name, dates: dates }, result.distance);
+    }
+  };
+
+  window.simBoundary = function(label, lat, lng) {
+    document.querySelectorAll('.test-panel button:not(.reset)').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const result = findNearest(lat, lng);
+    if (result.distance > FAR_THRESHOLD) {
+      document.querySelectorAll('.city-card.current').forEach(el => el.classList.remove('current'));
+      showFar(result.city, result.distance);
+    } else {
+      highlightCity(result.city, result.distance);
+    }
+  };
+
+  window.resetAll = function() {
+    document.querySelectorAll('.city-card.current').forEach(el => el.classList.remove('current'));
+    document.querySelectorAll('.test-panel button').forEach(b => b.classList.remove('active'));
+    locBar.classList.remove('show', 'reset-bar');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+})();
+</script>
+
+</body>
+</html>

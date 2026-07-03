@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="意大利之旅">
+<meta name="theme-color" content="#1c1c1e">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23007aff'/><text x='90' y='115' text-anchor='middle' font-size='100'>🇮🇹</text></svg>">
+<title>意大利之旅 · 行程单</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --card: #ffffff;
+    --text: #1c1c1e;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #8e8e93;
+    --accent: #007aff;
+    --accent-warm: #ff9500;
+    --italy-red: #c0392b;
+    --italy-green: #27ae60;
+    --italy-gold: #d4a373;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-soft: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero Header */
+  .hero {
+    position: relative;
+    background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.45)), url('images/rome.png') center/cover no-repeat;
+    padding: 48px 20px 64px;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-flag {
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .hero .sub {
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0.92;
+    letter-spacing: 0.5px;
+  }
+  .hero .nights {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 16px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+  }
+
+  /* Container */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px 32px;
+    margin-top: -28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Section */
+  .section { margin-bottom: 24px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 4px 12px;
+  }
+  .section-title .icon { font-size: 16px; }
+
+  /* Route Bar */
+  .route-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 18px 16px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 24px;
+  }
+  .route-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .route-bar .city {
+    padding: 6px 12px;
+    background: #f2f2f7;
+    border-radius: 16px;
+    color: var(--text);
+  }
+  .route-bar .arrow {
+    color: var(--text-tertiary);
+    font-size: 12px;
+  }
+
+  /* Flight Card */
+  .flight-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 18px 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-soft);
+  }
+  .flight-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .flight-date { font-size: 15px; font-weight: 700; }
+  .flight-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: #fff;
+  }
+  .flight-badge.return { background: var(--accent-warm); }
+  .flight-route { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .flight-city { text-align: center; }
+  .flight-city .code { font-size: 30px; font-weight: 800; letter-spacing: -1px; line-height: 1; color: var(--text); }
+  .flight-city .name { font-size: 12px; color: var(--text-secondary); margin-top: 4px; font-weight: 600; }
+  .flight-line { flex: 1; text-align: center; min-width: 80px; }
+  .flight-line .dash {
+    height: 2px;
+    background: linear-gradient(to right, #e5e5ea, #007aff, #e5e5ea);
+    margin: 0 8px;
+    border-radius: 1px;
+  }
+  .flight-line .info { font-size: 11px; color: var(--text-secondary); margin-top: 6px; white-space: nowrap; }
+  .flight-line .info .no { font-weight: 700; color: var(--text); }
+  .flight-time-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #f2f2f7;
+  }
+  .ft-dep, .ft-arr { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .ft-arrow { font-size: 14px; color: var(--text-tertiary); }
+  .ft-arr small { font-size: 12px; color: var(--text-tertiary); font-weight: 600; }
+
+  /* City Card */
+  .city-card {
+    background: var(--card);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .city-hero {
+    position: relative;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+  .city-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.1) 100%);
+    border-radius: 0;
+  }
+  .city-hero-content { position: relative; z-index: 1; color: #fff; }
+  .city-hero .city-name {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .city-hero .city-en {
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+  .city-hero .city-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .city-body { padding: 18px; }
+  .hotel-name {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .hotel-name-en {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .detail .icon { font-size: 16px; width: 24px; text-align: center; }
+  .detail .val { flex: 1; }
+  .nights-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: #e8f2ff;
+    color: var(--accent);
+    margin-top: 12px;
+  }
+
+  /* City Info Bar — time, sunrise, weather */
+  .city-info-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #f2f2f7;
+  }
+  .info-cell {
+    text-align: center;
+  }
+  .info-cell .info-icon {
+    font-size: 18px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .info-cell .info-label {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .info-cell .info-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .info-cell .info-sub {
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+  .info-weather.loading .info-value { opacity: 0.5; }
+
+  /* Inline Ticket */
+  .ticket-inline { margin-top: 14px; }
+  .ticket-divider { height: 1px; background: #e5e5ea; margin-bottom: 14px; }
+  .ticket-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #faf4ed;
+    border-radius: 12px;
+  }
+  .ticket-icon { font-size: 24px; line-height: 1; }
+  .ticket-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .ticket-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* Summary */
+  .summary { background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow-soft); }
+  .summary table { width: 100%; font-size: 13px; border-collapse: collapse; }
+  .summary th {
+    text-align: left;
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px;
+    border-bottom: 1px solid #e5e5ea;
+  }
+  .summary td { padding: 10px 8px; border-bottom: 1px solid #f2f2f7; vertical-align: middle; }
+  .summary tr:last-child td { border-bottom: none; }
+  .city-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #f2f2f7;
+  }
+  .nights { font-weight: 800; color: var(--accent); }
+  .summary td { color: var(--text); }
+
+  /* Footer */
+  .footer { text-align: center; font-size: 12px; color: var(--text-tertiary); padding: 32px 0 16px; }
+
+  /* Location Bar */
+  .loc-bar {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #e8f2ff;
+    border-radius: 14px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    animation: locPulse 2s ease-in-out;
+  }
+  .loc-bar.show { display: flex; }
+  .loc-bar .loc-icon { font-size: 18px; }
+  .loc-bar .loc-distance { font-weight: 600; color: var(--text-secondary); font-size: 12px; }
+  @keyframes locPulse {
+    0% { transform: scale(0.95); opacity: 0; }
+    60% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* City highlight */
+  .city-card.current {
+    box-shadow: 0 0 0 3px var(--accent), 0 8px 32px rgba(0,122,255,0.2);
+    transform: scale(1.01);
+    transition: box-shadow 0.6s ease, transform 0.6s ease;
+  }
+  .city-card.current .city-hero::before {
+    content: '📍 你在这里';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 3;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 12px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 12px;
+    animation: locPulse 2s ease-in-out;
+  }
+
+  /* Responsive */
+  @media (min-width: 768px) {
+    .container { padding: 0 24px 48px; margin-top: -32px; }
+    .hero { padding: 64px 24px 80px; }
+    .hero h1 { font-size: 40px; }
+    .city-hero { height: 240px; }
+    .city-hero .city-name { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero Header -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-flag">🇮🇹</div>
+    <h1>意大利之旅</h1>
+    <div class="sub">2026年7月11日 — 7月23日 · 12晚</div>
+    <div class="nights">5 座城市 · 12 晚住宿</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Route -->
+<div class="route-card">
+  <div class="route-bar">
+    <span class="city">索伦托</span><span class="arrow">→</span>
+    <span class="city">罗马</span><span class="arrow">→</span>
+    <span class="city">佛罗伦萨</span><span class="arrow">→</span>
+    <span class="city">威尼斯</span><span class="arrow">→</span>
+    <span class="city">米兰</span>
+  </div>
+</div>
+
+<!-- Location Bar -->
+<div class="loc-bar" id="locBar">
+  <span class="loc-icon">📍</span>
+  <span id="locText">检测中...</span>
+  <span class="loc-distance" id="locDist"></span>
+</div>
+
+<!-- Flights -->
+<div class="section">
+  <div class="section-title"><span class="icon">✈️</span>航班</div>
+
+  <div class="flight-card">
+    <div class="flight-header">
+      <div class="flight-date">7月11日（周六）</div>
+      <div class="flight-badge">去程</div>
+    </div>
+    <div class="flight-route">
+      <div class="flight-city"><div class="code">PEK</div><div class="name">北京首都 T3</div></div>
+      <div class="flight-line"><div class="dash"></div><div class="info"><span class="no">CA623</span> · 中国国航</div><div class="info">Boeing 777-300 · 11h15m</div></div>
+      <div class="flight-city"><div class="code">FCO</div><div class="name">罗马菲乌米奇诺 T3</div></div>
+    </div>
+    <div class="flight-time-row">
+      <span class="ft-dep">02:45</span>
+      <span class="ft-arrow">→</span>
+      <span class="ft-arr">08:00 <small>(+1)</small></span>
+    </div>
+  </div>
+
+  <div class="flight-card">
+    <div class="flight-header">
+      <div class="flight-date">7月23日（周四）</div>
+      <div class="flight-badge return">回程</div>
+    </div>
+    <div class="flight-route">
+      <div class="flight-city"><div class="code">MXP</div><div class="name">米兰马尔彭萨 T1</div></div>
+      <div class="flight-line"><div class="dash"></div><div class="info"><span class="no">CA750</span> · 中国国航</div><div class="info">Airbus A330-300 · 10h10m</div></div>
+      <div class="flight-city"><div class="code">PKX</div><div class="name">北京大兴</div></div>
+    </div>
+    <div class="flight-time-row">
+      <span class="ft-dep">20:00</span>
+      <span class="ft-arrow">→</span>
+      <span class="ft-arr">12:10 <small>(+1)</small></span>
+    </div>
+  </div>
+</div>
+
+<!-- Hotels / Cities -->
+<div class="section">
+  <div class="section-title"><span class="icon">🏨</span>酒店与行程</div>
+
+  <!-- Sorrento -->
+  <div class="city-card" id="city-sorrento">
+    <div class="city-hero" style="background-image: url('images/sorrento.png');">
+      <div class="city-hero-content">
+        <div class="city-name">索伦托</div>
+        <div class="city-en">Sorrento · 阿马尔菲海岸</div>
+        <div class="city-dates">📅 7月11日 — 7月14日</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">乔伊酒店</div>
+      <div class="hotel-name-en">Gioì Hotel Sorrento</div>
+      <div class="detail"><span class="icon">📍</span><span class="val">Via Bagnulo, 79, Piano di Sorrento</span></div>
+      <div class="detail"><span class="icon">🛏️</span><span class="val">带园景的高级房</span></div>
+      <div class="city-info-bar" data-lat="40.6263" data-lng="14.3758">
+        <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
+        <div class="info-cell"><div class="info-icon">🌅</div><div class="info-label">日出 / 日落</div><div class="info-value" data-role="sunrise">--:--</div><div class="info-sub" data-role="sunset">--:--</div></div>
+        <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
+      </div>
+      <span class="nights-badge">3 晚</span>
+    </div>
+  </div>
+
+  <!-- Rome -->
+  <div class="city-card" id="city-rome">
+    <div class="city-hero" style="background-image: url('images/rome.png');">
+      <div class="city-hero-content">
+        <div class="city-name">罗马</div>
+        <div class="city-en">Rome · 永恒之城</div>
+        <div class="city-dates">📅 7月14日 — 7月18日</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">Ruby朱莉亚酒店</div>
+      <div class="hotel-name-en">Ruby Giulia Hotel Rome</div>
+      <div class="detail"><span class="icon">📍</span><span class="val">Via Agostino Depretis 45A, Roma</span></div>
+      <div class="detail"><span class="icon">🛏️</span><span class="val">Lovely可爱房</span></div>
+      <div class="city-info-bar" data-lat="41.9028" data-lng="12.4964">
+        <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
+        <div class="info-cell"><div class="info-icon">🌅</div><div class="info-label">日出 / 日落</div><div class="info-value" data-role="sunrise">--:--</div><div class="info-sub" data-role="sunset">--:--</div></div>
+        <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
+      </div>
+      <span class="nights-badge">4 晚</span>
+    </div>
+  </div>
+
+  <!-- Florence -->
+  <div class="city-card" id="city-florence">
+    <div class="city-hero" style="background-image: url('images/florence.png');">
+      <div class="city-hero-content">
+        <div class="city-name">佛罗伦萨</div>
+        <div class="city-en">Florence · 文艺复兴摇篮</div>
+        <div class="city-dates">📅 7月18日 — 7月21日</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">赤宝石比亚酒店</div>
+      <div class="hotel-name-en">Ruby Bea Hotel Florence</div>
+      <div class="detail"><span class="icon">📍</span><span class="val">Piazza della Libertà 16, Firenze</span></div>
+      <div class="detail"><span class="icon">🛏️</span><span class="val">WOW客房</span></div>
+      <div class="city-info-bar" data-lat="43.7696" data-lng="11.2558">
+        <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
+        <div class="info-cell"><div class="info-icon">🌅</div><div class="info-label">日出 / 日落</div><div class="info-value" data-role="sunrise">--:--</div><div class="info-sub" data-role="sunset">--:--</div></div>
+        <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
+      </div>
+      <span class="nights-badge">3 晚</span>
+      <div class="ticket-inline">
+        <div class="ticket-divider"></div>
+        <div class="ticket-inner">
+          <span class="ticket-icon">🎫</span>
+          <div>
+            <div class="ticket-title">乌菲兹美术馆</div>
+            <div class="ticket-meta">7月19日（周日） 08:15 · Passepartout 5日通票</div>
+            <div class="ticket-meta">2张 · €80.00 · 编号 V9TBR0UW</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Venice -->
+  <div class="city-card" id="city-venice">
+    <div class="city-hero" style="background-image: url('images/venice.png');">
+      <div class="city-hero-content">
+        <div class="city-name">威尼斯</div>
+        <div class="city-en">Venice · 水上之城</div>
+        <div class="city-dates">📅 7月21日 — 7月22日</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">博洛尼亚贝斯特韦斯特盛品酒店</div>
+      <div class="hotel-name-en">Best Western Plus Hotel Bologna</div>
+      <div class="detail"><span class="icon">📍</span><span class="val">Via Piave, 214, Venezia</span></div>
+      <div class="detail"><span class="icon">🛏️</span><span class="val">高级房</span></div>
+      <div class="city-info-bar" data-lat="45.4408" data-lng="12.3155">
+        <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
+        <div class="info-cell"><div class="info-icon">🌅</div><div class="info-label">日出 / 日落</div><div class="info-value" data-role="sunrise">--:--</div><div class="info-sub" data-role="sunset">--:--</div></div>
+        <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
+      </div>
+      <span class="nights-badge">1 晚</span>
+    </div>
+  </div>
+
+  <!-- Milan -->
+  <div class="city-card" id="city-milan">
+    <div class="city-hero" style="background-image: url('images/milan.png');">
+      <div class="city-hero-content">
+        <div class="city-name">米兰</div>
+        <div class="city-en">Milan · 时尚与设计之都</div>
+        <div class="city-dates">📅 7月22日 — 7月23日</div>
+      </div>
+    </div>
+    <div class="city-body">
+      <div class="hotel-name">星际埃科酒店</div>
+      <div class="hotel-name-en">Starhotels E.c.ho.</div>
+      <div class="detail"><span class="icon">📍</span><span class="val">Vle Andrea Doria, 4, Milano</span></div>
+      <div class="detail"><span class="icon">🛏️</span><span class="val">高级房</span></div>
+      <div class="city-info-bar" data-lat="45.4642" data-lng="9.1900">
+        <div class="info-cell"><div class="info-icon">🕐</div><div class="info-label">当地时间</div><div class="info-value" data-role="time">--:--</div></div>
+        <div class="info-cell"><div class="info-icon">🌅</div><div class="info-label">日出 / 日落</div><div class="info-value" data-role="sunrise">--:--</div><div class="info-sub" data-role="sunset">--:--</div></div>
+        <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
+      </div>
+      <span class="nights-badge">1 晚</span>
+    </div>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="section">
+  <div class="section-title"><span class="icon">📊</span>一览</div>
+  <div class="summary">
+    <table>
+      <tr><th>日期</th><th>城市</th><th>住宿</th><th>备注</th></tr>
+      <tr><td>7/11</td><td><span class="city-tag">✈️ 飞行</span></td><td>—</td><td>CA623 抵意</td></tr>
+      <tr><td>7/11-14</td><td><span class="city-tag">索伦托</span></td><td>乔伊酒店</td><td class="nights">3晚</td></tr>
+      <tr><td>7/14-18</td><td><span class="city-tag">罗马</span></td><td>Ruby朱莉亚</td><td class="nights">4晚</td></tr>
+      <tr><td>7/18-21</td><td><span class="city-tag">佛罗伦萨</span></td><td>赤宝石比亚</td><td class="nights">3晚</td></tr>
+      <tr><td>7/19</td><td><span class="city-tag">佛罗伦萨</span></td><td>—</td><td>乌菲兹 08:15</td></tr>
+      <tr><td>7/21-22</td><td><span class="city-tag">威尼斯</span></td><td>贝斯特韦斯特</td><td class="nights">1晚</td></tr>
+      <tr><td>7/22-23</td><td><span class="city-tag">米兰</span></td><td>星际埃科</td><td class="nights">1晚</td></tr>
+      <tr><td>7/23</td><td><span class="city-tag">✈️ 返程</span></td><td>—</td><td>CA750 离境</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="footer">行程单 · 2026年7月3日 · 意大利之旅 🇮🇹</div>
+
+</div>
+
+<script>
+// ============================================================
+//  当地时间 · 日出日落 · 天气预报
+// ============================================================
+
+(function() {
+  // Italy is UTC+2 (CEST) in July
+  var ITALY_OFFSET = 2; // hours ahead of UTC
+
+  // Weather code mapping (Open-Meteo WMO codes)
+  var WEATHER_CODES = {
+    0:  { icon: '☀️', label: '晴' },
+    1:  { icon: '🌤️', label: '大部晴' },
+    2:  { icon: '⛅', label: '多云' },
+    3:  { icon: '☁️', label: '阴' },
+    45: { icon: '🌫️', label: '雾' },
+    48: { icon: '🌫️', label: '雾凇' },
+    51: { icon: '🌦️', label: '小毛毛雨' },
+    53: { icon: '🌦️', label: '毛毛雨' },
+    55: { icon: '🌧️', label: '大毛毛雨' },
+    61: { icon: '🌧️', label: '小雨' },
+    63: { icon: '🌧️', label: '中雨' },
+    65: { icon: '🌧️', label: '大雨' },
+    71: { icon: '🌨️', label: '小雪' },
+    73: { icon: '🌨️', label: '中雪' },
+    75: { icon: '❄️', label: '大雪' },
+    80: { icon: '🌦️', label: '阵雨' },
+    81: { icon: '🌧️', label: '中阵雨' },
+    82: { icon: '⛈️', label: '大阵雨' },
+    95: { icon: '⛈️', label: '雷暴' },
+    96: { icon: '⛈️', label: '雷暴+冰雹' },
+    99: { icon: '⛈️', label: '强雷暴' }
+  };
+
+  // ===== Sunrise / Sunset (NOAA formula) =====
+  function calcSunriseSunset(lat, lng, date) {
+    var dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+    var zenith = 90.833; // official zenith for sunrise/sunset
+    var lngHour = lng / 15;
+
+    // Sunrise
+    var tRise = dayOfYear + ((6 - lngHour) / 24);
+    var MRise = 0.9856 * tRise - 3.289;
+    var LRise = MRise + 1.916 * Math.sin(MRise * Math.PI / 180) + 0.02 * Math.sin(2 * MRise * Math.PI / 180) + 282.634;
+    LRise = ((LRise % 360) + 360) % 360;
+    var RARise = Math.atan(0.91764 * Math.tan(LRise * Math.PI / 180)) * 180 / Math.PI;
+    RARise = ((RARise % 360) + 360) % 360;
+    var LquadRise = Math.floor(LRise / 90) * 90;
+    var RAquadRise = Math.floor(RARise / 90) * 90;
+    RARise = RARise + (LquadRise - RAquadRise);
+    RARise = RARise / 15;
+    var sinDecRise = 0.39782 * Math.sin(LRise * Math.PI / 180);
+    var cosDecRise = Math.cos(Math.asin(sinDecRise));
+    var cosHRise = (Math.cos(zenith * Math.PI / 180) - sinDecRise * Math.sin(lat * Math.PI / 180)) / (cosDecRise * Math.cos(lat * Math.PI / 180));
+    var HRise = (360 - Math.acos(cosHRise) * 180 / Math.PI) / 15;
+    var riseTime = HRise + RARise - 0.06571 * tRise - 6.622 + lngHour;
+    riseTime = ((riseTime % 24) + 24) % 24;
+
+    // Sunset
+    var tSet = dayOfYear + ((18 - lngHour) / 24);
+    var MSet = 0.9856 * tSet - 3.289;
+    var LSet = MSet + 1.916 * Math.sin(MSet * Math.PI / 180) + 0.02 * Math.sin(2 * MSet * Math.PI / 180) + 282.634;
+    LSet = ((LSet % 360) + 360) % 360;
+    var RASet = Math.atan(0.91764 * Math.tan(LSet * Math.PI / 180)) * 180 / Math.PI;
+    RASet = ((RASet % 360) + 360) % 360;
+    var LquadSet = Math.floor(LSet / 90) * 90;
+    var RAquadSet = Math.floor(RASet / 90) * 90;
+    RASet = RASet + (LquadSet - RAquadSet);
+    RASet = RASet / 15;
+    var sinDecSet = 0.39782 * Math.sin(LSet * Math.PI / 180);
+    var cosDecSet = Math.cos(Math.asin(sinDecSet));
+    var cosHSet = (Math.cos(zenith * Math.PI / 180) - sinDecSet * Math.sin(lat * Math.PI / 180)) / (cosDecSet * Math.cos(lat * Math.PI / 180));
+    var HSet = Math.acos(cosHSet) * 180 / Math.PI / 15;
+    var setTime = HSet + RASet - 0.06571 * tSet - 6.622 + lngHour;
+    setTime = ((setTime % 24) + 24) % 24;
+
+    return { sunrise: riseTime, sunset: setTime };
+  }
+
+  function fmtTime(hoursDecimal) {
+    var h = Math.floor(hoursDecimal);
+    var m = Math.round((hoursDecimal - h) * 60);
+    if (m === 60) { h++; m = 0; }
+    return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+  }
+
+  // ===== Live Time =====
+  function updateAllTimes() {
+    var now = new Date();
+    // Italy time = UTC + ITALY_OFFSET
+    var italyTime = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (ITALY_OFFSET * 3600000));
+    var timeStr = String(italyTime.getUTCHours()).padStart(2, '0') + ':' + String(italyTime.getUTCMinutes()).padStart(2, '0');
+    document.querySelectorAll('[data-role="time"]').forEach(function(el) {
+      el.textContent = timeStr;
+    });
+  }
+  updateAllTimes();
+  setInterval(updateAllTimes, 30000); // refresh every 30s
+
+  // ===== Sunrise / Sunset for each city =====
+  function updateSunTimes() {
+    var today = new Date();
+    document.querySelectorAll('.city-info-bar').forEach(function(bar) {
+      var lat = parseFloat(bar.getAttribute('data-lat'));
+      var lng = parseFloat(bar.getAttribute('data-lng'));
+      var times = calcSunriseSunset(lat, lng, today);
+      var sunriseEl = bar.querySelector('[data-role="sunrise"]');
+      var sunsetEl = bar.querySelector('[data-role="sunset"]');
+      if (sunriseEl) sunriseEl.textContent = '🌅 ' + fmtTime(times.sunrise);
+      if (sunsetEl) sunsetEl.textContent = '🌇 ' + fmtTime(times.sunset);
+    });
+  }
+  updateSunTimes();
+
+  // ===== Weather (Open-Meteo free API) =====
+  function fetchWeather() {
+    var bars = document.querySelectorAll('.city-info-bar');
+    var lats = [], lngs = [], barRefs = [];
+    bars.forEach(function(bar, i) {
+      lats.push(bar.getAttribute('data-lat'));
+      lngs.push(bar.getAttribute('data-lng'));
+      barRefs.push(bar);
+    });
+
+    // Open-Meteo: batch query all cities
+    var url = 'https://api.open-meteo.com/v1/forecast?' +
+      'latitude=' + lats.join(',') +
+      '&longitude=' + lngs.join(',') +
+      '&daily=temperature_2m_max,temperature_2m_min,weathercode' +
+      '&timezone=Europe%2FRome' +
+      '&forecast_days=1';
+
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        // data is an array of results (one per city)
+        var results = Array.isArray(data) ? data : [data];
+        barRefs.forEach(function(bar, i) {
+          var result = results[i];
+          var weatherEl = bar.querySelector('[data-role="weather"]');
+          var rangeEl = bar.querySelector('[data-role="weather-range"]');
+          var weatherCell = bar.querySelector('.info-weather');
+          if (!result || !result.daily) {
+            if (weatherEl) weatherEl.textContent = '--';
+            if (rangeEl) rangeEl.textContent = '无数据';
+            if (weatherCell) weatherCell.classList.remove('loading');
+            return;
+          }
+          var code = result.daily.weathercode[0];
+          var max = Math.round(result.daily.temperature_2m_max[0]);
+          var min = Math.round(result.daily.temperature_2m_min[0]);
+          var w = WEATHER_CODES[code] || { icon: '🌡️', label: '未知' };
+
+          if (weatherEl) weatherEl.textContent = w.icon + ' ' + w.label;
+          if (rangeEl) rangeEl.textContent = min + '° / ' + max + '°';
+          if (weatherCell) weatherCell.classList.remove('loading');
+        });
+      })
+      .catch(function() {
+        barRefs.forEach(function(bar) {
+          var weatherEl = bar.querySelector('[data-role="weather"]');
+          var rangeEl = bar.querySelector('[data-role="weather-range"]');
+          var weatherCell = bar.querySelector('.info-weather');
+          if (weatherEl) weatherEl.textContent = '📡 离线';
+          if (rangeEl) rangeEl.textContent = '需要网络';
+          if (weatherCell) weatherCell.classList.remove('loading');
+        });
+      });
+  }
+  fetchWeather();
+
+  // ===== Geolocation (existing) =====
+  var cities = [
+    { id: 'city-sorrento', name: '索伦托', lat: 40.6263, lng: 14.3758, dates: '7/11-14' },
+    { id: 'city-rome',    name: '罗马',    lat: 41.9028, lng: 12.4964, dates: '7/14-18' },
+    { id: 'city-florence',name: '佛罗伦萨',lat: 43.7696, lng: 11.2558, dates: '7/18-21' },
+    { id: 'city-venice',  name: '威尼斯',  lat: 45.4408, lng: 12.3155, dates: '7/21-22' },
+    { id: 'city-milan',   name: '米兰',    lat: 45.4642, lng:  9.1900, dates: '7/22-23' }
+  ];
+
+  var locBar = document.getElementById('locBar');
+  var locText = document.getElementById('locText');
+  var locDist = document.getElementById('locDist');
+
+  // Haversine 公式计算距离 (km)
+  function haversine(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  function highlightCity(city, distance) {
+    if (!city) return;
+    var el = document.getElementById(city.id);
+    if (!el) return;
+
+    // 去掉之前的标记
+    document.querySelectorAll('.city-card.current').forEach(function(c) {
+      c.classList.remove('current');
+    });
+
+    // 高亮
+    el.classList.add('current');
+
+    // 更新提示条
+    locText.textContent = '你在「' + city.name + '」附近 (' + city.dates + ')';
+    locDist.textContent = distance < 1
+      ? '< ' + Math.round(distance * 1000) + 'm'
+      : '约 ' + distance.toFixed(0) + ' km';
+    locBar.classList.add('show');
+
+    // 滚动到卡片
+    setTimeout(function() {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  }
+
+  function findNearest(lat, lng) {
+    var nearest = null, minDist = Infinity;
+    cities.forEach(function(c) {
+      var d = haversine(lat, lng, c.lat, c.lng);
+      if (d < minDist) { minDist = d; nearest = c; }
+    });
+    return { city: nearest, distance: minDist };
+  }
+
+  // 距离超过 200km 时仅提示不置顶（说明人不在意大利）
+  var FAR_THRESHOLD = 200;
+
+  function onPosition(pos) {
+    var lat = pos.coords.latitude;
+    var lng = pos.coords.longitude;
+    var result = findNearest(lat, lng);
+
+    if (result.distance > FAR_THRESHOLD) {
+      locText.textContent = '你离意大利还有 ' + result.distance.toFixed(0) + ' km，最近的城市是 ' + result.city.name;
+      locDist.textContent = '✈️ 还没出发呢';
+      locBar.classList.add('show');
+      return;
+    }
+    highlightCity(result.city, result.distance);
+  }
+
+  function onError(err) {
+    // 无法获取位置时静默处理，不影响正常浏览
+    console.log('位置获取失败: ' + err.message);
+  }
+
+  // 尝试获取位置
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(onPosition, onError, {
+      enableHighAccuracy: true,
+      timeout: 8000,
+      maximumAge: 60000
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
