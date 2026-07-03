@@ -36,13 +36,31 @@
   /* Hero Header */
   .hero {
     position: relative;
-    background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.45)), url('images/rome.png') center/cover no-repeat;
     padding: 48px 20px 64px;
     text-align: center;
     color: #fff;
     overflow: hidden;
   }
-  .hero-content { position: relative; z-index: 1; }
+  .hero-bg-svg-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    filter: brightness(0.55) saturate(0.6);
+  }
+  .hero-bg-svg-wrapper svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.55), rgba(0,0,0,0.70));
+  }
+  .hero-content { position: relative; z-index: 2; }
   .hero-flag {
     font-size: 56px;
     line-height: 1;
@@ -462,12 +480,159 @@
     .city-hero { height: 240px; }
     .city-hero .city-name { font-size: 32px; }
   }
+
+  /* ===== 侧边抽屉导航 ===== */
+  .drawer-toggle {
+    position: fixed;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    left: calc(12px + env(safe-area-inset-left, 0px));
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .drawer-toggle:active { transform: scale(0.9); }
+  .drawer-toggle.hidden { opacity: 0; pointer-events: none; transform: translateX(-20px); }
+
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1002;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .drawer-overlay.show { opacity: 1; pointer-events: auto; }
+
+  .drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    max-width: 80vw;
+    background: var(--card);
+    z-index: 1003;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .drawer.show { transform: translateX(0); }
+  .drawer-header {
+    padding: calc(24px + env(safe-area-inset-top, 0px)) 20px 16px;
+    background: linear-gradient(135deg, var(--accent), #5856d6);
+    color: #fff;
+    position: relative;
+  }
+  .drawer-close {
+    position: absolute;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: 12px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .drawer-header .dh-flag { font-size: 40px; margin-bottom: 8px; }
+  .drawer-header .dh-title { font-size: 20px; font-weight: 800; }
+  .drawer-header .dh-sub { font-size: 12px; opacity: 0.8; margin-top: 4px; font-weight: 600; }
+  .drawer-list { padding: 8px 0; }
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .drawer-item:active { background: #f2f2f7; }
+  .drawer-item.active { background: #e8f0fe; color: var(--accent); }
+  .drawer-item .di-icon { font-size: 20px; width: 28px; text-align: center; }
+  .drawer-item .di-text { flex: 1; }
+  .drawer-item .di-meta { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
 </style>
 </head>
 <body>
 
+<!-- 抽屉导航 -->
+<button class="drawer-toggle" id="drawerToggle">☰</button>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="drawer" id="drawer">
+  <div class="drawer-header">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="dh-flag">🇮🇹</div>
+    <div class="dh-title">蜜月</div>
+    <div class="dh-sub">2026年7月11日 — 7月23日</div>
+  </div>
+  <div class="drawer-list">
+    <div class="drawer-item" data-target="top">
+      <span class="di-icon">🏠</span>
+      <span class="di-text">首页</span>
+    </div>
+    <div class="drawer-item" data-target="city-sorrento">
+      <span class="di-icon">🌊</span>
+      <span class="di-text">索伦托</span>
+      <span class="di-meta">7/11-14</span>
+    </div>
+    <div class="drawer-item" data-target="city-rome">
+      <span class="di-icon">🏛️</span>
+      <span class="di-text">罗马</span>
+      <span class="di-meta">7/14-18</span>
+    </div>
+    <div class="drawer-item" data-target="city-florence">
+      <span class="di-icon">🎨</span>
+      <span class="di-text">佛罗伦萨</span>
+      <span class="di-meta">7/18-21</span>
+    </div>
+    <div class="drawer-item" data-target="city-venice">
+      <span class="di-icon">🚤</span>
+      <span class="di-text">威尼斯</span>
+      <span class="di-meta">7/21-22</span>
+    </div>
+    <div class="drawer-item" data-target="city-milan">
+      <span class="di-icon">🏙️</span>
+      <span class="di-text">米兰</span>
+      <span class="di-meta">7/22-23</span>
+    </div>
+    <div class="drawer-item" data-target="summary">
+      <span class="di-icon">📊</span>
+      <span class="di-text">一览</span>
+    </div>
+  </div>
+</nav>
+
 <!-- Hero Header -->
 <div class="hero">
+  <div class="hero-bg-svg-wrapper">
+    <img class="hero-bg-svg" src="images/italy-map.svg" alt="Italy Map">
+  </div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-flag">🇮🇹</div>
     <h1>意大利之旅</h1>
@@ -620,6 +785,68 @@
           <a class="ticket-pdf-btn" id="colosseoPdfBtn" href="#">📄 查看电子票 PDF</a>
         </div>
       </div>
+      <!-- 梵蒂冈博物馆门票 -->
+      <div class="ticket-inline">
+        <div class="ticket-divider"></div>
+        <div class="ticket-inner">
+          <div class="ticket-header">
+            <span class="ticket-icon">🎫</span>
+            <div class="ticket-title">梵蒂冈博物馆</div>
+            <span class="ticket-status">已确认</span>
+          </div>
+          <div class="ticket-grid">
+            <div>
+              <div class="label">入场日期</div>
+              <div class="value">7月16日（周四）</div>
+            </div>
+            <div>
+              <div class="label">入场时间</div>
+              <div class="value">08:00</div>
+            </div>
+            <div>
+              <div class="label">人数</div>
+              <div class="value">2 人 · €50.00</div>
+            </div>
+            <div>
+              <div class="label">预订码</div>
+              <div class="value ticket-pnr">2L2NFLRX0000004QY</div>
+            </div>
+          </div>
+          <div class="ticket-note">⚠️ 入口：Viale Vaticano。请携带护照/身份证件。提前30分钟到达。门票含西斯廷教堂。禁止携带大包/三脚架。</div>
+          <a class="ticket-pdf-btn" id="vaticanPdfBtn" href="#">📄 查看电子票 PDF</a>
+        </div>
+      </div>
+      <!-- 波尔盖塞美术馆门票 -->
+      <div class="ticket-inline">
+        <div class="ticket-divider"></div>
+        <div class="ticket-inner">
+          <div class="ticket-header">
+            <span class="ticket-icon">🎫</span>
+            <div class="ticket-title">波尔盖塞美术馆 · 夜场</div>
+            <span class="ticket-status">已确认</span>
+          </div>
+          <div class="ticket-grid">
+            <div>
+              <div class="label">入场日期</div>
+              <div class="value">7月17日（周五）</div>
+            </div>
+            <div>
+              <div class="label">入场时间</div>
+              <div class="value">21:45-23:00</div>
+            </div>
+            <div>
+              <div class="label">人数</div>
+              <div class="value">2 人 · €26.00</div>
+            </div>
+            <div>
+              <div class="label">订单号</div>
+              <div class="value ticket-pnr">1297360402</div>
+            </div>
+          </div>
+          <div class="ticket-note">⚠️ 夜场特殊开放时间。请提前15分钟到达。必须携带护照/身份证件。禁止携带大包/雨伞（有免费寄存）。</div>
+          <a class="ticket-pdf-btn" id="borghesePdfBtn" href="#">📄 查看电子票 PDF</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -732,7 +959,7 @@
 </div>
 
 <!-- Summary -->
-<div class="section">
+<div class="section" id="summary">
   <div class="section-title"><span class="icon">📊</span>一览</div>
   <div class="summary">
     <table>
@@ -1032,6 +1259,78 @@
     colosseoBtn.setAttribute('target', '_blank');
     colosseoBtn.setAttribute('download', 'Colosseo-Tickets.pdf');
   }
+  var vaticanBtn = document.getElementById('vaticanPdfBtn');
+  if (vaticanBtn) {
+    vaticanBtn.setAttribute('href', 'tickets/vatican-tickets.pdf');
+    vaticanBtn.setAttribute('target', '_blank');
+    vaticanBtn.setAttribute('download', 'Vatican-Tickets.pdf');
+  }
+  var borgheseBtn = document.getElementById('borghesePdfBtn');
+  if (borgheseBtn) {
+    borgheseBtn.setAttribute('href', 'tickets/borghese-tickets.pdf');
+    borgheseBtn.setAttribute('target', '_blank');
+    borgheseBtn.setAttribute('download', 'Borghese-Tickets.pdf');
+  }
+})();
+
+// ============================================================
+//  抽屉导航
+// ============================================================
+(function() {
+  var toggle = document.getElementById('drawerToggle');
+  var overlay = document.getElementById('drawerOverlay');
+  var drawer = document.getElementById('drawer');
+  var closeBtn = document.getElementById('drawerClose');
+  var items = document.querySelectorAll('.drawer-item');
+
+  function openDrawer() {
+    drawer.classList.add('show');
+    overlay.classList.add('show');
+    toggle.classList.add('hidden');
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('show');
+    overlay.classList.remove('show');
+    toggle.classList.remove('hidden');
+  }
+
+  toggle.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  items.forEach(function(item) {
+    item.addEventListener('click', function() {
+      var target = this.getAttribute('data-target');
+      if (target === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        var el = document.getElementById(target);
+        if (el) {
+          var offset = 80; // 考虑顶部安全区
+          var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      }
+      closeDrawer();
+    });
+  });
+
+  // 滚动时高亮当前城市
+  window.addEventListener('scroll', function() {
+    var scrollPos = window.pageYOffset + 150;
+    items.forEach(function(item) {
+      var target = item.getAttribute('data-target');
+      if (target && target !== 'top' && target !== 'flights' && target !== 'tickets') {
+        var el = document.getElementById(target);
+        if (el && el.offsetTop <= scrollPos && el.offsetTop + el.offsetHeight > scrollPos) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      }
+    });
+  });
 })();
 </script>
 

@@ -2,3 +2,4 @@
 .workbuddy/
 node_modules/
 *.log
+deploy/
