@@ -576,6 +576,159 @@
   .drawer-item .di-icon { font-size: 20px; width: 28px; text-align: center; }
   .drawer-item .di-text { flex: 1; }
   .drawer-item .di-meta { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
+
+  /* ===== 每日行程：城市卡片内的行程区 ===== */
+  .itinerary-section {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #e5e5ea;
+  }
+  .itinerary-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-card {
+    background: #f9f9fb;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .day-card:last-child { margin-bottom: 0; }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .day-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .day-badge.transfer {
+    background: var(--accent-warm);
+  }
+  .day-date {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .day-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: #e8f2ff;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .day-tag.arrival { background: #e8f8e8; color: var(--italy-green); }
+  .day-tag.departure { background: #fff3e0; color: var(--accent-warm); }
+  .day-tag.transfer { background: #f3e8ff; color: #7c3aed; }
+  .activity-list { position: relative; padding-left: 0; }
+  .activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    position: relative;
+  }
+  .activity-item:first-child { padding-top: 0; }
+  .activity-item:last-child { padding-bottom: 0; }
+  .activity-dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 5px;
+    position: relative;
+    z-index: 1;
+  }
+  .activity-item.transfer .activity-dot { background: var(--accent-warm); }
+  .activity-item.museum .activity-dot { background: #8e44ad; }
+  .activity-item.food .activity-dot { background: #e67e22; }
+  .activity-item.transport .activity-dot { background: #3498db; }
+  .activity-item::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 15px;
+    bottom: -6px;
+    width: 2px;
+    background: #e5e5ea;
+  }
+  .activity-item:last-child::before { display: none; }
+  .activity-content { flex: 1; min-width: 0; }
+  .activity-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .activity-name-en {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  .activity-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .activity-time {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    background: #e8f2ff;
+    padding: 1px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .activity-time.warm { background: #fff3e0; color: var(--accent-warm); }
+  .activity-time.green { background: #e8f8e8; color: var(--italy-green); }
+  .activity-ticket-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 8px;
+    border-radius: 6px;
+    background: #fef3e0;
+    color: #b8860b;
+    white-space: nowrap;
+    border: 1px solid #f0ddaa;
+  }
+  .activity-desc {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+  .activity-item.transfer-city {
+    background: #f0f4ff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 4px 0;
+  }
+  .activity-item.transfer-city .activity-name {
+    color: var(--accent);
+    font-weight: 800;
+  }
 </style>
 </head>
 <body>
@@ -724,6 +877,108 @@
         <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
       </div>
       <span class="nights-badge">3 晚</span>
+      
+      <!-- 索伦托每日行程 -->
+      <div class="itinerary-section">
+        <div class="itinerary-title">📋 每日行程</div>
+        
+        <!-- DAY 1: 7/11 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 1</span>
+            <span class="day-date">7月11日（周六）</span>
+            <span class="day-tag arrival">抵达日</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transport">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">✈️ 北京 → 罗马</div>
+                <div class="activity-name-en">Beijing → Rome</div>
+                <div class="activity-meta">
+                  <span class="activity-time">02:45-08:00 +1</span>
+                </div>
+                <div class="activity-desc">CA623 · 飞抵罗马菲乌米奇诺机场后前往索伦托</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 2: 7/12 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 2</span>
+            <span class="day-date">7月12日（周日）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">索伦托小镇</div>
+                <div class="activity-name-en">Town of Sorrento</div>
+                <div class="activity-desc">漫步小镇，熟悉周边环境</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 3: 7/13 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 3</span>
+            <span class="day-date">7月13日（周一）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🏝️ 卡普里岛</div>
+                <div class="activity-name-en">Capri</div>
+                <div class="activity-desc">从索伦托乘船前往卡普里岛一日游</div>
+              </div>
+            </div>
+            <div class="activity-item transport">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">返回索伦托</div>
+                <div class="activity-desc">傍晚乘船返回</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 4: 7/14 上午 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 4</span>
+            <span class="day-date">7月14日（周二）</span>
+            <span class="day-tag departure">转城市</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">波西塔诺</div>
+                <div class="activity-name-en">Positano</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">阿马尔菲</div>
+                <div class="activity-name-en">Amalfi</div>
+              </div>
+            </div>
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 前往罗马</div>
+                <div class="activity-desc">傍晚出发，约 1h 抵达</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -747,6 +1002,150 @@
         <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
       </div>
       <span class="nights-badge">4 晚</span>
+      
+      <!-- 罗马每日行程 -->
+      <div class="itinerary-section">
+        <div class="itinerary-title">📋 每日行程</div>
+        
+        <!-- DAY 4 (续): 7/14 傍晚 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 4</span>
+            <span class="day-date">7月14日（周二）</span>
+            <span class="day-tag arrival">入住日</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 索伦托 → 罗马</div>
+                <div class="activity-desc">傍晚抵达，入住 Ruby Giulia 酒店</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 5: 7/15 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 5</span>
+            <span class="day-date">7月15日（周三）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">特雷维喷泉</div>
+                <div class="activity-name-en">Trevi Fountain</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">圣依纳爵堂</div>
+                <div class="activity-name-en">Church of Saint Ignatius of Loyola</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">万神殿</div>
+                <div class="activity-name-en">Pantheon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 6: 7/16 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 6</span>
+            <span class="day-date">7月16日（周四）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">梵蒂冈博物馆</div>
+                <div class="activity-name-en">Vatican Museums</div>
+                <div class="activity-meta">
+                  <span class="activity-time">08:00</span>
+                  <span class="activity-ticket-badge">有门票</span>
+                </div>
+                <div class="activity-desc">含西斯廷教堂，提前 30 分钟到达</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">圣彼得大教堂</div>
+                <div class="activity-name-en">St. Peter's Basilica</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 7: 7/17 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 7</span>
+            <span class="day-date">7月17日（周五）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">罗马斗兽场 · 阁楼体验</div>
+                <div class="activity-name-en">Colosseum Full Experience - Attico</div>
+                <div class="activity-meta">
+                  <span class="activity-time">11:50</span>
+                  <span class="activity-ticket-badge">有门票</span>
+                </div>
+                <div class="activity-desc">提前 15 分钟到达，先上阁楼。门票含古罗马广场、帕拉蒂尼山</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">帕拉丁山 & 古罗马广场</div>
+                <div class="activity-name-en">Palatine Hill & Roman Forum</div>
+                <div class="activity-desc">与斗兽场联票，2 天内有效</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">波尔盖塞美术馆 · 夜场</div>
+                <div class="activity-name-en">Galleria Borghese</div>
+                <div class="activity-meta">
+                  <span class="activity-time warm">21:45-23:00</span>
+                  <span class="activity-ticket-badge">有门票</span>
+                </div>
+                <div class="activity-desc">夜场特殊开放时间，带证件</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 8: 7/18 上午 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 8</span>
+            <span class="day-date">7月18日（周六）</span>
+            <span class="day-tag departure">转城市</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">罗马出发</div>
+                <div class="activity-desc">早晨退房前往佛罗伦萨</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="ticket-inline">
         <div class="ticket-divider"></div>
         <div class="ticket-inner">
@@ -870,6 +1269,158 @@
         <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
       </div>
       <span class="nights-badge">3 晚</span>
+      
+      <!-- 佛罗伦萨每日行程 -->
+      <div class="itinerary-section">
+        <div class="itinerary-title">📋 每日行程</div>
+        
+        <!-- DAY 8 (续): 7/18 下午 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 8</span>
+            <span class="day-date">7月18日（周六）</span>
+            <span class="day-tag arrival">抵达日</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 罗马 → 佛罗伦萨</div>
+                <div class="activity-desc">约 1.5h 火车，抵达后入住 Ruby Bea 酒店</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">圣母百花教堂</div>
+                <div class="activity-name-en">Florence Cathedral</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">共和广场</div>
+                <div class="activity-name-en">Piazza della Repubblica</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">领主广场</div>
+                <div class="activity-name-en">Piazza della Signoria</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">圣十字圣殿</div>
+                <div class="activity-name-en">Basilica di Santa Croce</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 9: 7/19 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 9</span>
+            <span class="day-date">7月19日（周日）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">乌菲兹美术馆</div>
+                <div class="activity-name-en">Uffizi Gallery</div>
+                <div class="activity-meta">
+                  <span class="activity-time">08:15</span>
+                  <span class="activity-ticket-badge">有门票</span>
+                </div>
+                <div class="activity-desc">Passepartout 5日通票</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">碧提宫</div>
+                <div class="activity-name-en">Pitti Palace</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">波波里花园</div>
+                <div class="activity-name-en">Boboli Gardens</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">米开朗琪罗广场</div>
+                <div class="activity-name-en">Piazzale Michelangelo</div>
+                <div class="activity-desc">俯瞰佛罗伦萨全景，看日落</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 10: 7/20 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 10</span>
+            <span class="day-date">7月20日（周一）</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transport">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 佛罗伦萨 → 比萨</div>
+                <div class="activity-desc">约 1h 火车</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">比萨斜塔</div>
+                <div class="activity-name-en">Leaning Tower of Pisa</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">骑士广场</div>
+                <div class="activity-name-en">Knights' Square</div>
+              </div>
+            </div>
+            <div class="activity-item transport">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">返回佛罗伦萨</div>
+                <div class="activity-desc">傍晚返回</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 11: 7/21 上午 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 11</span>
+            <span class="day-date">7月21日（周二）</span>
+            <span class="day-tag departure">转城市</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 佛罗伦萨 → 威尼斯</div>
+                <div class="activity-desc">早晨前往威尼斯</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="ticket-inline">
         <div class="ticket-divider"></div>
         <div class="ticket-inner">
@@ -931,6 +1482,97 @@
         <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
       </div>
       <span class="nights-badge">1 晚</span>
+      
+      <!-- 威尼斯每日行程 -->
+      <div class="itinerary-section">
+        <div class="itinerary-title">📋 每日行程</div>
+        
+        <!-- DAY 11 (续): 7/21 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 11</span>
+            <span class="day-date">7月21日（周二）</span>
+            <span class="day-tag arrival">入住日</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 佛罗伦萨 → 威尼斯</div>
+                <div class="activity-desc">约 2h 火车，抵达后入住</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">圣马可广场</div>
+                <div class="activity-name-en">St. Mark's Square</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">大运河</div>
+                <div class="activity-name-en">Grand Canal</div>
+                <div class="activity-desc">乘坐贡多拉或水上巴士游览</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">叹息桥</div>
+                <div class="activity-name-en">Bridge of Sighs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 12: 7/22 上午 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 12</span>
+            <span class="day-date">7月22日（周三）</span>
+            <span class="day-tag departure">转城市</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">赤足桥</div>
+                <div class="activity-name-en">Scalzi Bridge</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">玻璃岛</div>
+                <div class="activity-name-en">Murano Island</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">彩虹岛</div>
+                <div class="activity-name-en">Burano Island</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">学院桥</div>
+                <div class="activity-name-en">Accademia Bridge</div>
+              </div>
+            </div>
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 前往米兰</div>
+                <div class="activity-desc">约 2.5h 火车</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -954,6 +1596,72 @@
         <div class="info-cell info-weather"><div class="info-icon">🌡️</div><div class="info-label">天气</div><div class="info-value" data-role="weather">--</div><div class="info-sub" data-role="weather-range">--</div></div>
       </div>
       <span class="nights-badge">1 晚</span>
+      
+      <!-- 米兰每日行程 -->
+      <div class="itinerary-section">
+        <div class="itinerary-title">📋 每日行程</div>
+        
+        <!-- DAY 12 (续): 7/22 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 12</span>
+            <span class="day-date">7月22日（周三）</span>
+            <span class="day-tag arrival">入住日</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item transfer-city">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">🚄 威尼斯 → 米兰</div>
+                <div class="activity-desc">傍晚抵达，入住星际埃科酒店</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- DAY 13: 7/23 -->
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-badge">DAY 13</span>
+            <span class="day-date">7月23日（周四）</span>
+            <span class="day-tag departure">返程日</span>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">米兰大教堂</div>
+                <div class="activity-name-en">Milan Cathedral</div>
+              </div>
+            </div>
+            <div class="activity-item museum">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">布雷拉画廊</div>
+                <div class="activity-name-en">Brera Art Gallery</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">斯福尔扎古堡</div>
+                <div class="activity-name-en">Sforza Castle</div>
+              </div>
+            </div>
+            <div class="activity-item transport">
+              <div class="activity-dot"></div>
+              <div class="activity-content">
+                <div class="activity-name">✈️ 米兰 → 北京</div>
+                <div class="activity-name-en">Milan → Beijing</div>
+                <div class="activity-meta">
+                  <span class="activity-time warm">20:00-12:10 +1</span>
+                </div>
+                <div class="activity-desc">CA750 · 米兰马尔彭萨 T1 → 北京大兴</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -963,15 +1671,14 @@
   <div class="section-title"><span class="icon">📊</span>一览</div>
   <div class="summary">
     <table>
-      <tr><th>日期</th><th>城市</th><th>住宿</th><th>备注</th></tr>
-      <tr><td>7/11</td><td><span class="city-tag">✈️ 飞行</span></td><td>—</td><td>CA623 抵意</td></tr>
-      <tr><td>7/11-14</td><td><span class="city-tag">索伦托</span></td><td>乔伊酒店</td><td class="nights">3晚</td></tr>
-      <tr><td>7/14-18</td><td><span class="city-tag">罗马</span></td><td>Ruby朱莉亚</td><td class="nights">4晚</td></tr>
-      <tr><td>7/18-21</td><td><span class="city-tag">佛罗伦萨</span></td><td>赤宝石比亚</td><td class="nights">3晚</td></tr>
-      <tr><td>7/19</td><td><span class="city-tag">佛罗伦萨</span></td><td>—</td><td>乌菲兹 08:15</td></tr>
-      <tr><td>7/21-22</td><td><span class="city-tag">威尼斯</span></td><td>贝斯特韦斯特</td><td class="nights">1晚</td></tr>
-      <tr><td>7/22-23</td><td><span class="city-tag">米兰</span></td><td>星际埃科</td><td class="nights">1晚</td></tr>
-      <tr><td>7/23</td><td><span class="city-tag">✈️ 返程</span></td><td>—</td><td>CA750 离境</td></tr>
+      <tr><th>日期</th><th>城市</th><th>住宿</th><th>晚数</th></tr>
+      <tr><td>7/11</td><td><span class="city-tag">✈️ 飞行</span></td><td>—</td><td>—</td></tr>
+      <tr><td>7/11-14</td><td><span class="city-tag">索伦托</span></td><td>乔伊酒店</td><td class="nights">3 晚</td></tr>
+      <tr><td>7/14-18</td><td><span class="city-tag">罗马</span></td><td>Ruby朱莉亚</td><td class="nights">4 晚</td></tr>
+      <tr><td>7/18-21</td><td><span class="city-tag">佛罗伦萨</span></td><td>赤宝石比亚</td><td class="nights">3 晚</td></tr>
+      <tr><td>7/21-22</td><td><span class="city-tag">威尼斯</span></td><td>贝斯特韦斯特</td><td class="nights">1 晚</td></tr>
+      <tr><td>7/22-23</td><td><span class="city-tag">米兰</span></td><td>星际埃科</td><td class="nights">1 晚</td></tr>
+      <tr><td>7/23</td><td><span class="city-tag">✈️ 返程</span></td><td>—</td><td>—</td></tr>
     </table>
   </div>
 </div>
