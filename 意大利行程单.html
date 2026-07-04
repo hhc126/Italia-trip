@@ -2778,7 +2778,7 @@
       }
     } else {
       // 切换到附近搜索
-      findFoodByLocation();
+      searchNearbyFood();
     }
   };
   
@@ -2812,6 +2812,13 @@
     switchFoodTab('curated');
   };
   
+  // 搜索附近餐厅（附近搜索标签页功能）
+  window.searchNearbyFood = function() {
+    var loading = document.getElementById('foodLoading');
+    var list = document.getElementById('foodList');
+    loading.style.display = 'block';
+    list.innerHTML = '';
+    
     // 获取当前位置
     if (!navigator.geolocation) {
       loading.style.display = 'none';

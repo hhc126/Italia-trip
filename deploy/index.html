@@ -1008,6 +1008,37 @@
     color: var(--text-secondary);
   }
 
+  /* 美食标签页 */
+  .food-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .food-tab {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .food-tab:hover {
+    background: var(--bg-hover);
+  }
+
+  .food-tab.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
   .food-modal-body {
     padding: 16px;
   }
@@ -2820,11 +2851,108 @@
     });
   }
   
+  // 精选餐厅数据（按城市分类）
+  var curatedRestaurants = {
+    'sorrento': [],
+    'rome': [],
+    'florence': [
+      {
+        name: "I' Trippaio del Mercato",
+        cuisine: "街头小吃",
+        address: "中央市场",
+        phone: "",
+        hours: "",
+        dishes: "牛肚包、三拼",
+        price: "€",
+        xiaohongshu: "http://xhslink.com/o/2QsSkpxPTuC",
+        review: "老板很帅，番茄牛肉汤底超鲜，比Bambi更匠心"
+      }
+    ],
+    'venice': [],
+    'milan': []
+  };
+  
+  // 根据页面滚动位置判断当前城市
+  function getCurrentCity() {
+    var cities = ['sorrento', 'rome', 'florence', 'venice', 'milan'];
+    var scrollPos = window.scrollY + 100;
+    
+    for (var i = 0; i < cities.length; i++) {
+      var el = document.getElementById('city-' + cities[i]);
+      if (el && el.offsetTop <= scrollPos) {
+        if (i === cities.length - 1 || el.offsetTop + el.offsetHeight > scrollPos) {
+          return cities[i];
+        }
+      }
+    }
+    return 'florence'; // 默认返回佛罗伦萨
+  }
+  
+  // 切换美食标签页
+  window.switchFoodTab = function(tab) {
+    var tabs = document.querySelectorAll('.food-tab');
+    tabs.forEach(function(t) {
+      t.classList.remove('active');
+      if (t.dataset.tab === tab) t.classList.add('active');
+    });
+    
+    if (tab === 'curated') {
+      // 显示精选推荐
+      var loading = document.getElementById('foodLoading');
+      var list = document.getElementById('foodList');
+      loading.style.display = 'none';
+      
+      // 根据当前城市显示精选餐厅
+      var currentCity = getCurrentCity();
+      var restaurants = curatedRestaurants[currentCity] || [];
+      
+      if (restaurants.length === 0) {
+        list.innerHTML = '<div style="padding: 40px 20px; text-align: center; color: var(--text-secondary);">' +
+                        '<div style="font-size: 48px; margin-bottom: 16px;">📝</div>' +
+                        '<div>该城市暂无精选餐厅</div>' +
+                        '<div style="font-size: 13px; margin-top: 8px; color: var(--text-tertiary);">您可以发送小红书链接给我，我会帮您添加到精选列表</div>' +
+                        '</div>';
+      } else {
+        renderCuratedRestaurants(restaurants);
+      }
+    } else {
+      // 切换到附近搜索
+      searchNearbyFood();
+    }
+  };
+  
+  // 渲染精选餐厅列表
+  function renderCuratedRestaurants(restaurants) {
+    var list = document.getElementById('foodList');
+    list.innerHTML = '';
+    
+    restaurants.forEach(function(r) {
+      var card = document.createElement('div');
+      card.style.cssText = 'background: var(--bg-secondary); border-radius: 12px; padding: 16px; margin-bottom: 12px;';
+      
+      var html = '<div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">' + r.name + '</div>';
+      html += '<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">🍽️ ' + r.cuisine + ' · ' + r.price + '</div>';
+      if (r.address) html += '<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">📍 ' + r.address + '</div>';
+      if (r.dishes) html += '<div style="font-size: 13px; margin-bottom: 6px;">👨‍🍳 ' + r.dishes + '</div>';
+      if (r.review) html += '<div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px; font-style: italic;">"' + r.review + '"</div>';
+      if (r.xiaohongshu) html += '<div style="margin-top: 8px;"><a href="' + r.xiaohongshu + '" target="_blank" style="color: var(--accent); font-size: 13px; text-decoration: none;">🔗 查看小红书笔记</a></div>';
+      
+      card.innerHTML = html;
+      list.appendChild(card);
+    });
+  }
+  
   // 根据当前位置搜索美食（FAB按钮功能）
   window.findFoodByLocation = function() {
     // 显示弹窗
     openFoodModal();
     
+    // 默认显示精选推荐标签页
+    switchFoodTab('curated');
+  };
+  
+  // 搜索附近餐厅（附近搜索标签页功能）
+  window.searchNearbyFood = function() {
     var loading = document.getElementById('foodLoading');
     var list = document.getElementById('foodList');
     loading.style.display = 'block';
@@ -3038,10 +3166,15 @@
   <div class="food-modal" id="foodModal" onclick="event.stopPropagation()">
     <div class="food-modal-handle"></div>
     <div class="food-modal-header">
-      <h3>🍝 附近美食</h3>
+      <h3>🍝 美食推荐</h3>
       <button class="food-modal-close" onclick="closeFoodModal()">✕</button>
     </div>
-    <div class="food-modal-loading" id="foodLoading">
+    <!-- 标签页切换 -->
+    <div class="food-tabs">
+      <button class="food-tab active" data-tab="curated" onclick="switchFoodTab('curated')">⭐ 精选推荐</button>
+      <button class="food-tab" data-tab="nearby" onclick="switchFoodTab('nearby')">📍 附近搜索</button>
+    </div>
+    <div class="food-modal-loading" id="foodLoading" style="display:none;">
       🔍 正在搜索附近餐厅...
     </div>
     <div class="food-modal-body" id="foodList"></div>
