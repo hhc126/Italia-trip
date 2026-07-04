@@ -2741,17 +2741,20 @@
   // 根据页面滚动位置判断城市（降级方案）
   function getCityByScroll() {
     var cities = ['sorrento', 'rome', 'florence', 'venice', 'milan'];
-    var scrollPos = window.scrollY + 100;
+    var scrollPos = window.scrollY + 120; // 稍微偏下一点，更准确匹配可见区域
     
-    for (var i = 0; i < cities.length; i++) {
+    // 从后往前找最后一个offsetTop <= scrollPos的城市 = 当前可见的城市
+    var currentCity = 'florence'; // 默认值
+    
+    for (var i = cities.length - 1; i >= 0; i--) {
       var el = document.getElementById('city-' + cities[i]);
       if (el && el.offsetTop <= scrollPos) {
-        if (i === cities.length - 1 || el.offsetTop + el.offsetHeight > scrollPos) {
-          return cities[i];
-        }
+        currentCity = cities[i];
+        break;
       }
     }
-    return 'florence';
+    
+    return currentCity;
   }
   
   // 获取当前城市（优先使用页面滚动位置）
