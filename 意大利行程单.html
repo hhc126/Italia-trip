@@ -2754,42 +2754,51 @@
     return 'florence';
   }
   
-  // 获取当前城市（优先使用GPS定位）
+  // 获取当前城市（优先使用页面滚动位置）
   function getCurrentCity(callback) {
-    // 如果有回调函数，使用GPS定位（异步）
-    if (callback && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          var lat = position.coords.latitude;
-          var lng = position.coords.longitude;
-          
-          // 计算到每个城市的距离
-          var minDistance = Infinity;
-          var closestCity = 'florence';
-          
-          for (var city in cityCoordinates) {
-            var coord = cityCoordinates[city];
-            var distance = calculateDistance(lat, lng, coord.lat, coord.lng);
+    // 优先使用页面滚动位置判断城市
+    var cityByScroll = getCityByScroll();
+    
+    if (callback) {
+      // 如果有回调函数，先返回滚动位置的城市，然后尝试GPS定位（异步更新）
+      callback(cityByScroll);
+      
+      // 后台尝试GPS定位，如果成功且距离差距大，则更新
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
             
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestCity = city;
+            // 计算到每个城市的距离
+            var minDistance = Infinity;
+            var closestCity = cityByScroll;
+            
+            for (var city in cityCoordinates) {
+              var coord = cityCoordinates[city];
+              var distance = calculateDistance(lat, lng, coord.lat, coord.lng);
+              
+              if (distance < minDistance) {
+                minDistance = distance;
+                closestCity = city;
+              }
             }
-          }
-          
-          console.log('GPS定位：您在' + cityCoordinates[closestCity].name + '附近（距离' + Math.round(minDistance) + '公里）');
-          callback(closestCity);
-        },
-        function(error) {
-          // GPS定位失败，使用页面滚动位置
-          console.log('GPS定位失败，使用页面位置判断城市');
-          callback(getCityByScroll());
-        },
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 300000 }
-      );
+            
+            // 如果GPS定位的城市与滚动位置不同，且距离更近（小于50公里），则更新
+            if (closestCity !== cityByScroll && minDistance < 50) {
+              console.log('GPS定位更新：从' + cityCoordinates[cityByScroll].name + '更新为' + cityCoordinates[closestCity].name);
+              callback(closestCity);
+            }
+          },
+          function(error) {
+            // GPS定位失败，保持使用滚动位置
+            console.log('GPS定位失败，保持使用页面位置判断城市');
+          },
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 300000 }
+        );
+      }
     } else {
-      // 不使用GPS，直接根据页面滚动位置判断
-      return getCityByScroll();
+      return cityByScroll;
     }
   }
   
@@ -2806,10 +2815,10 @@
       var loading = document.getElementById('foodLoading');
       var list = document.getElementById('foodList');
       loading.style.display = 'block';
-      loading.textContent = '📍 正在定位您所在城市...';
+      loading.textContent = '📍 正在判断您所在城市...';
       list.innerHTML = '';
       
-      // 使用GPS定位判断城市（异步）
+      // 使用页面滚动位置判断城市（优先），GPS作为辅助
       getCurrentCity(function(currentCity) {
         loading.style.display = 'none';
         
@@ -2827,7 +2836,8 @@
                           '<div style="font-size: 13px; margin-top: 8px; color: var(--text-tertiary);">您可以发送小红书链接给我，我会帮您添加到精选列表</div>' +
                           '</div>';
         } else {
-          renderCuratedRestaurants(restaurants);
+          // 渲染精选餐厅（追加到城市名称后面）
+          renderCuratedRestaurants(restaurants, list);
         }
       });
     } else {
@@ -2836,10 +2846,9 @@
     }
   };
   
-  // 渲染精选餐厅列表
-  function renderCuratedRestaurants(restaurants) {
-    var list = document.getElementById('foodList');
-    list.innerHTML = '';
+  // 渲染精选餐厅列表（追加到list后面）
+  function renderCuratedRestaurants(restaurants, listElement) {
+    var list = listElement || document.getElementById('foodList');
     
     restaurants.forEach(function(r) {
       var card = document.createElement('div');
