@@ -23,6 +23,48 @@
     --italy-gold: #d4a373;
     --shadow: 0 4px 20px rgba(0,0,0,0.08);
     --shadow-soft: 0 2px 12px rgba(0,0,0,0.06);
+    --border: #e5e5ea;
+    --border-light: #f2f2f7;
+    --bg-secondary: #f2f2f7;
+    --bg-hover: #f2f2f7;
+    --drawer-bg: #ffffff;
+    --drawer-item-hover: #f2f2f7;
+    --drawer-item-active: #e8f0fe;
+    --ticket-bg: linear-gradient(135deg, #faf4ed, #f5ede0);
+    --ticket-border: #e8dcc8;
+    --loc-bar-bg: #e8f2ff;
+    --city-tag-bg: #f2f2f7;
+    --success-bg: #27ae60;
+    --theme-toggle-bg: rgba(255,255,255,0.85);
+  }
+
+  /* 深色主题 */
+  [data-theme="dark"] {
+    --bg: #1a1a1a;
+    --card: #2d2d2d;
+    --text: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #808080;
+    --accent: #5ba0e9;
+    --accent-warm: #ffb143;
+    --italy-red: #e74c3c;
+    --italy-green: #2ecc71;
+    --italy-gold: #e6b980;
+    --shadow: 0 4px 20px rgba(0,0,0,0.3);
+    --shadow-soft: 0 2px 12px rgba(0,0,0,0.2);
+    --border: #404040;
+    --border-light: #383838;
+    --bg-secondary: #383838;
+    --bg-hover: #404040;
+    --drawer-bg: #2d2d2d;
+    --drawer-item-hover: #404040;
+    --drawer-item-active: #1a3a5c;
+    --ticket-bg: linear-gradient(135deg, #3a3530, #353029);
+    --ticket-border: #4a4035;
+    --loc-bar-bg: #1a3a5c;
+    --city-tag-bg: #404040;
+    --success-bg: #2ecc71;
+    --theme-toggle-bg: rgba(45,45,45,0.85);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -136,7 +178,7 @@
   }
   .route-bar .city {
     padding: 6px 12px;
-    background: #f2f2f7;
+    background: var(--bg-secondary);
     border-radius: 16px;
     color: var(--text);
   }
@@ -171,7 +213,7 @@
   .flight-line { flex: 1; text-align: center; min-width: 80px; }
   .flight-line .dash {
     height: 2px;
-    background: linear-gradient(to right, #e5e5ea, #007aff, #e5e5ea);
+    background: linear-gradient(to right, var(--border), var(--accent), var(--border));
     margin: 0 8px;
     border-radius: 1px;
   }
@@ -184,7 +226,7 @@
     gap: 16px;
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid #f2f2f7;
+    border-top: 1px solid var(--border-light);
   }
   .ft-dep, .ft-arr { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
   .ft-arrow { font-size: 14px; color: var(--text-tertiary); }
@@ -264,7 +306,7 @@
   .detail .icon { font-size: 16px; width: 24px; text-align: center; }
   .detail .val { flex: 1; }
   .detail.map-link { cursor: pointer; transition: background 0.2s; border-radius: 8px; margin-left: -6px; padding-left: 6px; margin-right: -6px; padding-right: 6px; }
-  .detail.map-link:active { background: #f2f2f7; }
+  .detail.map-link:active { background: var(--bg-hover); }
   .detail.map-link .val { color: var(--accent); }
   .detail.map-link .nav-arrow { font-size: 13px; color: var(--text-tertiary); margin-left: 4px; white-space: nowrap; }
   .nights-badge {
@@ -273,7 +315,7 @@
     font-weight: 700;
     padding: 5px 14px;
     border-radius: 20px;
-    background: #e8f2ff;
+    background: var(--loc-bar-bg);
     color: var(--accent);
     margin-top: 12px;
   }
@@ -285,7 +327,7 @@
     gap: 8px;
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid #f2f2f7;
+    border-top: 1px solid var(--border-light);
   }
   .info-cell {
     text-align: center;
@@ -317,12 +359,12 @@
 
   /* Inline Ticket */
   .ticket-inline { margin-top: 14px; }
-  .ticket-divider { height: 1px; background: #e5e5ea; margin-bottom: 14px; }
+  .ticket-divider { height: 1px; background: var(--border); margin-bottom: 14px; }
   .ticket-inner {
     padding: 14px 16px;
-    background: linear-gradient(135deg, #faf4ed, #f5ede0);
+    background: var(--ticket-bg);
     border-radius: 14px;
-    border: 1px solid #e8dcc8;
+    border: 1px solid var(--ticket-border);
   }
   .ticket-header {
     display: flex;
@@ -409,7 +451,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     padding: 8px;
-    border-bottom: 1px solid #e5e5ea;
+    border-bottom: 1px solid var(--border);
   }
   .summary td { padding: 10px 8px; border-bottom: 1px solid #f2f2f7; vertical-align: middle; }
   .summary tr:last-child td { border-bottom: none; }
@@ -419,7 +461,7 @@
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 8px;
-    background: #f2f2f7;
+    background: var(--city-tag-bg);
   }
   .nights { font-weight: 800; color: var(--accent); }
   .summary td { color: var(--text); }
@@ -433,7 +475,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: #e8f2ff;
+    background: var(--loc-bar-bg);
     border-radius: 14px;
     padding: 10px 16px;
     margin-bottom: 20px;
@@ -506,7 +548,89 @@
   }
   .drawer-toggle:active { transform: scale(0.9); }
   .drawer-toggle.hidden { opacity: 0; pointer-events: none; transform: translateX(-20px); }
+  .drawer-toggle, .theme-toggle {
+    background: var(--theme-toggle-bg);
+  }
 
+  /* 主题切换按钮 */
+  .theme-toggle {
+    position: fixed;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .theme-toggle:active { transform: scale(0.9); }
+
+  /* 美食浮动按钮 (FAB) */
+  .food-fab {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: calc(20px + env(safe-area-inset-right, 0px));
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b35, #ff8c42);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .food-fab:active {
+    transform: scale(0.9);
+    box-shadow: 0 2px 10px rgba(255, 107, 53, 0.4);
+  }
+  
+  .food-fab:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+  }
+  
+  /* 脉冲动画效果 */
+  .food-fab::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: inherit;
+    animation: pulse 2s ease-out infinite;
+    opacity: 0.6;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  
   .drawer-overlay {
     position: fixed;
     inset: 0;
@@ -571,8 +695,8 @@
     transition: background 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
-  .drawer-item:active { background: #f2f2f7; }
-  .drawer-item.active { background: #e8f0fe; color: var(--accent); }
+  .drawer-item:active { background: var(--drawer-item-hover); }
+  .drawer-item.active { background: var(--drawer-item-active); color: var(--accent); }
   .drawer-item .di-icon { font-size: 20px; width: 28px; text-align: center; }
   .drawer-item .di-text { flex: 1; }
   .drawer-item .di-meta { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
@@ -594,7 +718,7 @@
     gap: 6px;
   }
   .day-card {
-    background: #f9f9fb;
+    background: var(--bg-secondary);
     border-radius: 14px;
     padding: 14px 16px;
     margin-bottom: 10px;
@@ -630,13 +754,18 @@
     font-weight: 700;
     padding: 2px 10px;
     border-radius: 10px;
-    background: #e8f2ff;
+    background: var(--loc-bar-bg);
     color: var(--accent);
     white-space: nowrap;
   }
   .day-tag.arrival { background: #e8f8e8; color: var(--italy-green); }
   .day-tag.departure { background: #fff3e0; color: var(--accent-warm); }
   .day-tag.transfer { background: #f3e8ff; color: #7c3aed; }
+
+  /* 深色模式下day-tag适配 */
+  [data-theme="dark"] .day-tag.arrival { background: #1a4a2a; color: #2ecc71; }
+  [data-theme="dark"] .day-tag.departure { background: #4a3520; color: #ffb143; }
+  [data-theme="dark"] .day-tag.transfer { background: #3a2855; color: #a78bfa; }
   .activity-list { position: relative; padding-left: 0; }
   .activity-item {
     display: flex;
@@ -695,12 +824,13 @@
     font-size: 11px;
     font-weight: 800;
     color: var(--accent);
-    background: #e8f2ff;
+    background: var(--loc-bar-bg);
     padding: 1px 8px;
     border-radius: 6px;
     white-space: nowrap;
   }
   .activity-time.warm { background: #fff3e0; color: var(--accent-warm); }
+  [data-theme="dark"] .activity-time.warm { background: #4a3520; color: #ffb143; }
   .activity-time.green { background: #e8f8e8; color: var(--italy-green); }
   .activity-ticket-badge {
     font-size: 10px;
@@ -712,6 +842,7 @@
     white-space: nowrap;
     border: 1px solid #f0ddaa;
   }
+  [data-theme="dark"] .activity-ticket-badge { background: #4a3520; color: #e6b980; border-color: #5a4530; }
   .activity-desc {
     font-size: 12px;
     color: var(--text-tertiary);
@@ -725,16 +856,248 @@
     padding: 8px 12px;
     margin: 4px 0;
   }
+  [data-theme="dark"] .activity-item.transfer-city { background: #1a2a45; }
   .activity-item.transfer-city .activity-name {
     color: var(--accent);
     font-weight: 800;
   }
+
+  /* ===== 美食推荐 ===== */
+  .food-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e5ea;
+  }
+
+  .food-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+
+  .food-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 2px solid var(--italy-gold);
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .food-btn:active {
+    transform: scale(0.98);
+    background: #faf4ed;
+  }
+
+  .food-btn-icon {
+    font-size: 24px;
+  }
+
+  .food-btn-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  .food-btn-arrow {
+    color: var(--text-tertiary);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  /* 美食弹窗 */
+  .food-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2001;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .food-modal-overlay.show {
+    display: flex;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .food-modal {
+    background: var(--bg);
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    max-width: 680px;
+    max-height: 70vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  /* 滑动指示器（iOS风格） */
+  .food-modal-handle {
+    width: 36px;
+    height: 4px;
+    background: #c7c7cc;
+    border-radius: 2px;
+    margin: 8px auto 0;
+  }
+  
+  .food-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+  }
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .food-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .food-modal-header h3 {
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .food-modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #e5e5ea;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .food-modal-loading {
+    padding: 40px 20px;
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+
+  .food-modal-body {
+    padding: 16px;
+  }
+
+  .restaurant-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .rest-name {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .rest-cuisine {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+
+  .rest-status {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  .rest-status.open {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  [data-theme="dark"] .rest-status.open { background: #1a3a2a; color: #66bb6a; }
+
+  .rest-status.closed {
+    background: #fce4ec;
+    color: #c62828;
+  }
+  [data-theme="dark"] .rest-status.closed { background: #4a1a1a; color: #ef5350; }
+
+  .rest-status.unknown {
+    background: #f5f5f5;
+    color: var(--text-secondary);
+  }
+  [data-theme="dark"] .rest-status.unknown { background: #383838; }
+
+  .rest-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .rest-action-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .rest-action-btn.nav {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .rest-action-btn.call {
+    background: #f5f5f5;
+    color: var(--text);
+  }
+  [data-theme="dark"] .rest-action-btn.call { background: #404040; }
 </style>
 </head>
 <body>
 
 <!-- 抽屉导航 -->
 <button class="drawer-toggle" id="drawerToggle">☰</button>
+
+<!-- 主题切换按钮 -->
+<button class="theme-toggle" id="themeToggle" title="切换主题">☀️</button>
+
+<!-- 美食浮动按钮 -->
+<button class="food-fab" id="foodFab" onclick="findFoodByLocation()">🍜</button>
+
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <nav class="drawer" id="drawer">
   <div class="drawer-header">
@@ -1022,7 +1385,7 @@
         <div class="itinerary-title">📋 每日行程</div>
         
         <!-- DAY 1: 7/11 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/11">
           <div class="day-header">
             <span class="day-badge">DAY 1</span>
             <span class="day-date">7月11日（周六）</span>
@@ -1044,7 +1407,7 @@
         </div>
         
         <!-- DAY 2: 7/12 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/12">
           <div class="day-header">
             <span class="day-badge">DAY 2</span>
             <span class="day-date">7月12日（周日）</span>
@@ -1062,7 +1425,7 @@
         </div>
         
         <!-- DAY 3: 7/13 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/13">
           <div class="day-header">
             <span class="day-badge">DAY 3</span>
             <span class="day-date">7月13日（周一）</span>
@@ -1087,7 +1450,7 @@
         </div>
         
         <!-- DAY 4: 7/14 上午 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/14">
           <div class="day-header">
             <span class="day-badge">DAY 4</span>
             <span class="day-date">7月14日（周二）</span>
@@ -1147,7 +1510,7 @@
         <div class="itinerary-title">📋 每日行程</div>
         
         <!-- DAY 4 (续): 7/14 傍晚 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/14">
           <div class="day-header">
             <span class="day-badge">DAY 4</span>
             <span class="day-date">7月14日（周二）</span>
@@ -1165,7 +1528,7 @@
         </div>
         
         <!-- DAY 5: 7/15 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/15">
           <div class="day-header">
             <span class="day-badge">DAY 5</span>
             <span class="day-date">7月15日（周三）</span>
@@ -1196,7 +1559,7 @@
         </div>
         
         <!-- DAY 6: 7/16 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/16">
           <div class="day-header">
             <span class="day-badge">DAY 6</span>
             <span class="day-date">7月16日（周四）</span>
@@ -1222,10 +1585,40 @@
               </div>
             </div>
           </div>
+        <!-- 🎫 梵蒂冈博物馆门票 -->
+        <div class="ticket-inline">
+          <div class="ticket-inner">
+            <div class="ticket-header">
+              <span class="ticket-icon">🎫</span>
+              <div class="ticket-title">梵蒂冈博物馆</div>
+              <span class="ticket-status">已确认</span>
+            </div>
+            <div class="ticket-grid">
+              <div>
+                <div class="label">入场日期</div>
+                <div class="value">7月16日（周四）</div>
+              </div>
+              <div>
+                <div class="label">入场时间</div>
+                <div class="value">08:00</div>
+              </div>
+              <div>
+                <div class="label">人数</div>
+                <div class="value">2 人 · €50.00</div>
+              </div>
+              <div>
+                <div class="label">预订码</div>
+                <div class="value ticket-pnr">2L2NFLRX0000004QY</div>
+              </div>
+            </div>
+            <div class="ticket-note">⚠️ 入口：Viale Vaticano。请携带护照/身份证件。提前30分钟到达。门票含西斯廷教堂。禁止携带大包/三脚架。</div>
+            <a class="ticket-pdf-btn" id="vaticanPdfBtn" href="#">📄 查看电子票 PDF</a>
+          </div>
         </div>
-        
+      </div>
+      
         <!-- DAY 7: 7/17 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/17">
           <div class="day-header">
             <span class="day-badge">DAY 7</span>
             <span class="day-date">7月17日（周五）</span>
@@ -1264,10 +1657,78 @@
               </div>
             </div>
           </div>
+        <!-- 🎫 斗兽场门票 -->
+        <div class="ticket-inline">
+          <div class="ticket-inner">
+            <div class="ticket-header">
+              <span class="ticket-icon">🎫</span>
+              <div class="ticket-title">斗兽场 · 阁楼体验</div>
+              <span class="ticket-status">已确认</span>
+            </div>
+            <div class="ticket-grid">
+              <div>
+                <div class="label">入场日期</div>
+                <div class="value">7月17日（周五）</div>
+              </div>
+              <div>
+                <div class="label">入场时间</div>
+                <div class="value">11:50</div>
+              </div>
+              <div>
+                <div class="label">票种</div>
+                <div class="value">Full Experience - Attico</div>
+              </div>
+              <div>
+                <div class="label">人数</div>
+                <div class="value">2 人 · €48.00</div>
+              </div>
+              <div>
+                <div class="label">预订码 PNR</div>
+                <div class="value ticket-pnr">OCO4217126</div>
+              </div>
+              <div>
+                <div class="label">购票人</div>
+                <div class="value">haochen hou</div>
+              </div>
+            </div>
+            <div class="ticket-note">⚠️ 提前 15 分钟到达入口，需出示证件。斗兽场参观时间 90 分钟，到后立即乘电梯上阁楼。门票有效期 2 天，还含古罗马广场、帕拉蒂尼山、帝国论坛。禁止携带背包/行李箱。</div>
+            <a class="ticket-pdf-btn" id="colosseoPdfBtn" href="#">📄 查看电子票 PDF</a>
+          </div>
         </div>
-        
-        <!-- DAY 8: 7/18 上午 -->
-        <div class="day-card">
+        <!-- 🎫 波尔盖塞美术馆门票 -->
+        <div class="ticket-inline">
+          <div class="ticket-inner">
+            <div class="ticket-header">
+              <span class="ticket-icon">🎫</span>
+              <div class="ticket-title">波尔盖塞美术馆 · 夜场</div>
+              <span class="ticket-status">已确认</span>
+            </div>
+            <div class="ticket-grid">
+              <div>
+                <div class="label">入场日期</div>
+                <div class="value">7月17日（周五）</div>
+              </div>
+              <div>
+                <div class="label">入场时间</div>
+                <div class="value">21:45-23:00</div>
+              </div>
+              <div>
+                <div class="label">人数</div>
+                <div class="value">2 人 · €26.00</div>
+              </div>
+              <div>
+                <div class="label">订单号</div>
+                <div class="value ticket-pnr">1297360402</div>
+              </div>
+            </div>
+            <div class="ticket-note">⚠️ 夜场特殊开放时间。请提前15分钟到达。必须携带护照/身份证件。禁止携带大包/雨伞（有免费寄存）。</div>
+            <a class="ticket-pdf-btn" id="borghesePdfBtn" href="#">📄 查看电子票 PDF</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- DAY 8: 7/18 上午 -->
+        <div class="day-card" data-date="7/18">
           <div class="day-header">
             <span class="day-badge">DAY 8</span>
             <span class="day-date">7月18日（周六）</span>
@@ -1282,107 +1743,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      
-      <div class="ticket-inline">
-        <div class="ticket-divider"></div>
-        <div class="ticket-inner">
-          <div class="ticket-header">
-            <span class="ticket-icon">🎫</span>
-            <div class="ticket-title">斗兽场 · 阁楼体验</div>
-            <span class="ticket-status">已确认</span>
-          </div>
-          <div class="ticket-grid">
-            <div>
-              <div class="label">入场日期</div>
-              <div class="value">7月17日（周五）</div>
-            </div>
-            <div>
-              <div class="label">入场时间</div>
-              <div class="value">11:50</div>
-            </div>
-            <div>
-              <div class="label">票种</div>
-              <div class="value">Full Experience - Attico</div>
-            </div>
-            <div>
-              <div class="label">人数</div>
-              <div class="value">2 人 · €48.00</div>
-            </div>
-            <div>
-              <div class="label">预订码 PNR</div>
-              <div class="value ticket-pnr">OCO4217126</div>
-            </div>
-            <div>
-              <div class="label">购票人</div>
-              <div class="value">haochen hou</div>
-            </div>
-          </div>
-          <div class="ticket-note">⚠️ 提前 15 分钟到达入口，需出示证件。斗兽场参观时间 90 分钟，到后立即乘电梯上阁楼。门票有效期 2 天，还含古罗马广场、帕拉蒂尼山、帝国论坛。禁止携带背包/行李箱。</div>
-          <a class="ticket-pdf-btn" id="colosseoPdfBtn" href="#">📄 查看电子票 PDF</a>
-        </div>
-      </div>
-      <!-- 梵蒂冈博物馆门票 -->
-      <div class="ticket-inline">
-        <div class="ticket-divider"></div>
-        <div class="ticket-inner">
-          <div class="ticket-header">
-            <span class="ticket-icon">🎫</span>
-            <div class="ticket-title">梵蒂冈博物馆</div>
-            <span class="ticket-status">已确认</span>
-          </div>
-          <div class="ticket-grid">
-            <div>
-              <div class="label">入场日期</div>
-              <div class="value">7月16日（周四）</div>
-            </div>
-            <div>
-              <div class="label">入场时间</div>
-              <div class="value">08:00</div>
-            </div>
-            <div>
-              <div class="label">人数</div>
-              <div class="value">2 人 · €50.00</div>
-            </div>
-            <div>
-              <div class="label">预订码</div>
-              <div class="value ticket-pnr">2L2NFLRX0000004QY</div>
-            </div>
-          </div>
-          <div class="ticket-note">⚠️ 入口：Viale Vaticano。请携带护照/身份证件。提前30分钟到达。门票含西斯廷教堂。禁止携带大包/三脚架。</div>
-          <a class="ticket-pdf-btn" id="vaticanPdfBtn" href="#">📄 查看电子票 PDF</a>
-        </div>
-      </div>
-      <!-- 波尔盖塞美术馆门票 -->
-      <div class="ticket-inline">
-        <div class="ticket-divider"></div>
-        <div class="ticket-inner">
-          <div class="ticket-header">
-            <span class="ticket-icon">🎫</span>
-            <div class="ticket-title">波尔盖塞美术馆 · 夜场</div>
-            <span class="ticket-status">已确认</span>
-          </div>
-          <div class="ticket-grid">
-            <div>
-              <div class="label">入场日期</div>
-              <div class="value">7月17日（周五）</div>
-            </div>
-            <div>
-              <div class="label">入场时间</div>
-              <div class="value">21:45-23:00</div>
-            </div>
-            <div>
-              <div class="label">人数</div>
-              <div class="value">2 人 · €26.00</div>
-            </div>
-            <div>
-              <div class="label">订单号</div>
-              <div class="value ticket-pnr">1297360402</div>
-            </div>
-          </div>
-          <div class="ticket-note">⚠️ 夜场特殊开放时间。请提前15分钟到达。必须携带护照/身份证件。禁止携带大包/雨伞（有免费寄存）。</div>
-          <a class="ticket-pdf-btn" id="borghesePdfBtn" href="#">📄 查看电子票 PDF</a>
         </div>
       </div>
     </div>
@@ -1414,7 +1774,7 @@
         <div class="itinerary-title">📋 每日行程</div>
         
         <!-- DAY 8 (续): 7/18 下午 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/18">
           <div class="day-header">
             <span class="day-badge">DAY 8</span>
             <span class="day-date">7月18日（周六）</span>
@@ -1460,7 +1820,7 @@
         </div>
         
         <!-- DAY 9: 7/19 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/19">
           <div class="day-header">
             <span class="day-badge">DAY 9</span>
             <span class="day-date">7月19日（周日）</span>
@@ -1502,9 +1862,47 @@
             </div>
           </div>
         </div>
+        <!-- 🎫 乌菲兹美术馆门票 -->
+        <div class="ticket-inline">
+          <div class="ticket-inner">
+            <div class="ticket-header">
+              <span class="ticket-icon">🎫</span>
+              <div class="ticket-title">乌菲兹美术馆</div>
+              <span class="ticket-status">已确认</span>
+            </div>
+            <div class="ticket-grid">
+              <div>
+                <div class="label">入场日期</div>
+                <div class="value">7月19日（周日）</div>
+              </div>
+              <div>
+                <div class="label">入场时间</div>
+                <div class="value">08:15</div>
+              </div>
+              <div>
+                <div class="label">票种</div>
+                <div class="value">Passepartout 5日通票</div>
+              </div>
+              <div>
+                <div class="label">人数</div>
+                <div class="value">2 人 · €80.00</div>
+              </div>
+              <div>
+                <div class="label">预订码 PNR</div>
+                <div class="value ticket-pnr">V9TBR0UW</div>
+              </div>
+              <div>
+                <div class="label">购票人</div>
+                <div class="value">Hou Haochen</div>
+              </div>
+            </div>
+            <div class="ticket-note">⚠️ 请提前 15 分钟到达入口处，出示手机上的电子票即可。门票不可退款。5日通票有效期内可多次进入乌菲兹美术馆。</div>
+            <a class="ticket-pdf-btn" id="uffiziPdfBtn" href="#">📄 查看电子票 PDF</a>
+          </div>
+        </div>
         
         <!-- DAY 10: 7/20 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/20">
           <div class="day-header">
             <span class="day-badge">DAY 10</span>
             <span class="day-date">7月20日（周一）</span>
@@ -1542,7 +1940,7 @@
         </div>
         
         <!-- DAY 11: 7/21 上午 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/21">
           <div class="day-header">
             <span class="day-badge">DAY 11</span>
             <span class="day-date">7月21日（周二）</span>
@@ -1559,46 +1957,6 @@
           </div>
         </div>
       </div>
-      
-      <div class="ticket-inline">
-        <div class="ticket-divider"></div>
-        <div class="ticket-inner">
-          <div class="ticket-header">
-            <span class="ticket-icon">🎫</span>
-            <div class="ticket-title">乌菲兹美术馆</div>
-            <span class="ticket-status">已确认</span>
-          </div>
-          <div class="ticket-grid">
-            <div>
-              <div class="label">入场日期</div>
-              <div class="value">7月19日（周日）</div>
-            </div>
-            <div>
-              <div class="label">入场时间</div>
-              <div class="value">08:15</div>
-            </div>
-            <div>
-              <div class="label">票种</div>
-              <div class="value">Passepartout 5日通票</div>
-            </div>
-            <div>
-              <div class="label">人数</div>
-              <div class="value">2 人 · €80.00</div>
-            </div>
-            <div>
-              <div class="label">预订码 PNR</div>
-              <div class="value ticket-pnr">V9TBR0UW</div>
-            </div>
-            <div>
-              <div class="label">购票人</div>
-              <div class="value">Hou Haochen</div>
-            </div>
-          </div>
-          <div class="ticket-note">⚠️ 请提前 15 分钟到达入口处，出示手机上的电子票即可。门票不可退款。5日通票有效期内可多次进入乌菲兹美术馆。</div>
-          <a class="ticket-pdf-btn" id="uffiziPdfBtn" href="#">📄 查看电子票 PDF</a>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Venice -->
@@ -1627,7 +1985,7 @@
         <div class="itinerary-title">📋 每日行程</div>
         
         <!-- DAY 11 (续): 7/21 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/21">
           <div class="day-header">
             <span class="day-badge">DAY 11</span>
             <span class="day-date">7月21日（周二）</span>
@@ -1667,7 +2025,7 @@
         </div>
         
         <!-- DAY 12: 7/22 上午 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/22">
           <div class="day-header">
             <span class="day-badge">DAY 12</span>
             <span class="day-date">7月22日（周三）</span>
@@ -1741,7 +2099,7 @@
         <div class="itinerary-title">📋 每日行程</div>
         
         <!-- DAY 12 (续): 7/22 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/22">
           <div class="day-header">
             <span class="day-badge">DAY 12</span>
             <span class="day-date">7月22日（周三）</span>
@@ -1759,7 +2117,7 @@
         </div>
         
         <!-- DAY 13: 7/23 -->
-        <div class="day-card">
+        <div class="day-card" data-date="7/23">
           <div class="day-header">
             <span class="day-badge">DAY 13</span>
             <span class="day-date">7月23日（周四）</span>
@@ -1822,11 +2180,67 @@
   </div>
 </div>
 
-<div class="footer">行程单 · 2026年7月3日 · 意大利之旅 🇮🇹</div>
+<div class="footer">行程单 · 2026年7月4日 · 意大利之旅 🇮🇹</div>
 
 </div>
 
 <script>
+// ============================================================
+//  主题切换（深色/浅色模式）
+// ============================================================
+
+(function() {
+  var themeToggle = document.getElementById('themeToggle');
+  var currentTheme = localStorage.getItem('theme'); // 'dark', 'light', or null
+
+  // 检测是否是夜间（18:00-6:00）
+  function isNightTime() {
+    var hour = new Date().getHours();
+    return hour >= 18 || hour < 6;
+  }
+
+  // 应用主题
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '🌙';
+      themeToggle.title = '切换到浅色模式';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '☀️';
+      themeToggle.title = '切换到深色模式';
+    }
+  }
+
+  // 初始化主题
+  function initTheme() {
+    if (currentTheme) {
+      // 用户手动设置过主题
+      applyTheme(currentTheme);
+    } else if (isNightTime()) {
+      // 夜间自动深色模式
+      applyTheme('dark');
+    } else {
+      // 默认浅色模式
+      applyTheme('light');
+    }
+  }
+
+  // 切换主题
+  function toggleTheme() {
+    var newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    currentTheme = newTheme;
+    applyTheme(newTheme);
+  }
+
+  // 绑定点击事件
+  themeToggle.addEventListener('click', toggleTheme);
+
+  // 初始化
+  initTheme();
+})();
+
 // ============================================================
 //  当地时间 · 日出日落 · 天气预报
 // ============================================================
@@ -2089,6 +2503,81 @@
 })();
 
 // ============================================================
+//  自动滚动到当前日期对应的行程
+//  测试模式: 在URL中添加 ?testdate=7/15 来模拟7月15日
+// ============================================================
+(function() {
+  function autoScrollToCurrentDate(testDateStr) {
+    var currentMonth, currentDay;
+    
+    // 检查是否使用测试日期
+    if (testDateStr) {
+      var parts = testDateStr.split('/');
+      currentMonth = parseInt(parts[0]) || 7;
+      currentDay = parseInt(parts[1]);
+      console.log('[测试模式] 模拟日期: ' + testDateStr);
+    } else {
+      // 检查URL参数
+      var urlParams = new URLSearchParams(window.location.search);
+      var testParam = urlParams.get('testdate');
+      if (testParam) {
+        var parts = testParam.split('/');
+        currentMonth = parseInt(parts[0]) || 7;
+        currentDay = parseInt(parts[1]);
+        console.log('[URL测试模式] 模拟日期: ' + testParam);
+      } else {
+        // 使用实际日期
+        var now = new Date();
+        // 意大利时区 UTC+2
+        var italyNow = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 2 * 3600000);
+        currentMonth = italyNow.getUTCMonth() + 1;
+        currentDay = italyNow.getUTCDate();
+      }
+    }
+    
+    console.log('[自动滚动] 当前日期: ' + currentMonth + '月' + currentDay + '日');
+    
+    // 旅行日期范围: 7/11 - 7/23
+    if (currentMonth !== 7 || currentDay < 11 || currentDay > 23) {
+      console.log('[自动滚动] 不在旅行日期范围内，不执行滚动');
+      return false;
+    }
+    
+    // 查找匹配的 day-card
+    var dateStr = '7/' + currentDay;
+    var targetCard = document.querySelector('.day-card[data-date="' + dateStr + '"]');
+    
+    if (targetCard) {
+      console.log('[自动滚动] 找到匹配的day-card: ' + dateStr + ', 元素:', targetCard);
+      var offset = 80;
+      var top = targetCard.getBoundingClientRect().top + window.pageYOffset - offset;
+      setTimeout(function() {
+        window.scrollTo({ top: top, behavior: 'smooth' });
+        console.log('[自动滚动] 已滚动到位置: ' + top);
+      }, 500);
+      return true;
+    } else {
+      console.log('[自动滚动] 未找到匹配的day-card: ' + dateStr);
+      return false;
+    }
+  }
+  
+  // 导出测试函数到全局，方便手动测试
+  window.testDateScroll = function(dateStr) {
+    return autoScrollToCurrentDate(dateStr);
+  };
+  
+  // 页面加载时执行
+  if (document.readyState === 'complete') {
+    autoScrollToCurrentDate();
+  } else {
+    window.addEventListener('load', function() {
+      autoScrollToCurrentDate();
+    });
+  }
+})();
+
+// ============================================================
 //  电子票 PDF 链接
 // ============================================================
 (function() {
@@ -2178,7 +2667,386 @@
     });
   });
 })();
+
+// ===== 美食推荐功能 =====
+(function() {
+  // 打开美食弹窗
+  window.openFoodModal = function() {
+    var overlay = document.getElementById('foodModalOverlay');
+    overlay.classList.add('show');
+  };
+
+  // 关闭美食弹窗
+  window.closeFoodModal = function() {
+    var overlay = document.getElementById('foodModalOverlay');
+    var modal = document.getElementById('foodModal');
+    modal.style.transform = '';
+    modal.style.transition = '';
+    overlay.classList.remove('show');
+  };
+  
+  // 滑动关闭功能（iOS风格）
+  function initSwipeToClose() {
+    var modal = document.getElementById('foodModal');
+    var overlay = document.getElementById('foodModalOverlay');
+    var startY = 0;
+    var currentY = 0;
+    var isSwiping = false;
+    
+    modal.addEventListener('touchstart', function(e) {
+      if (modal.scrollTop > 0) return; // 如果内容已滚动，不触发滑动关闭
+      startY = e.touches[0].clientY;
+      isSwiping = true;
+      modal.style.transition = 'none';
+    }, { passive: true });
+    
+    modal.addEventListener('touchmove', function(e) {
+      if (!isSwiping) return;
+      currentY = e.touches[0].clientY;
+      var deltaY = currentY - startY;
+      
+      if (deltaY > 0) { // 只允许向下滑动
+        modal.style.transform = 'translateY(' + deltaY + 'px)';
+        // 根据滑动距离调整遮罩透明度
+        var opacity = 1 - (deltaY / 500);
+        overlay.style.background = 'rgba(0,0,0,' + Math.max(0, opacity * 0.5) + ')';
+      }
+    }, { passive: true });
+    
+    modal.addEventListener('touchend', function(e) {
+      if (!isSwiping) return;
+      isSwiping = false;
+      var deltaY = currentY - startY;
+      
+      modal.style.transition = 'transform 0.3s ease';
+      
+      if (deltaY > 150) { // 滑动超过150px，关闭弹窗
+        modal.style.transform = 'translateY(100%)';
+        setTimeout(function() {
+          closeFoodModal();
+        }, 300);
+      } else { // 滑动不足，弹回原位
+        modal.style.transform = '';
+        overlay.style.background = '';
+      }
+    }, { passive: true });
+  }
+  
+  // 初始化滑动关闭（DOM加载后执行）
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSwipeToClose);
+  } else {
+    initSwipeToClose();
+  }
+  
+  // 搜索附近餐厅（主函数）
+  window.findNearbyFood = function(cityName, lat, lng) {
+    // 显示弹窗
+    openFoodModal();
+    
+    // 显示loading
+    var loading = document.getElementById('foodLoading');
+    var list = document.getElementById('foodList');
+    loading.style.display = 'block';
+    list.innerHTML = '';
+    
+    // 调用Overpass API搜索餐厅
+    searchRestaurants(lat, lng);
+  };
+
+  // 调用Overpass API
+  function searchRestaurants(lat, lng) {
+    var query = `
+      [out:json][timeout:25];
+      (
+        node["amenity"="restaurant"](around:2000, ${lat}, ${lng});
+        way["amenity"="restaurant"](around:2000, ${lat}, ${lng});
+      );
+      out body;
+      >;
+      out skel qt;
+    `;
+    
+    // 添加超时处理（10秒）
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+    
+    fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST',
+      body: 'data=' + encodeURIComponent(query),
+      signal: controller.signal
+    })
+    .then(function(r) { 
+      clearTimeout(timeoutId);
+      if (!r.ok) throw new Error('API响应错误');
+      return r.json(); 
+    })
+    .then(function(data) {
+      // 解析餐厅数据
+      var restaurants = parseRestaurantData(data, lat, lng);
+      
+      // 按距离排序
+      restaurants.sort(function(a, b) {
+        return a.distance - b.distance;
+      });
+      
+      // 渲染餐厅列表
+      renderRestaurants(restaurants);
+    })
+    .catch(function(err) {
+      clearTimeout(timeoutId);
+      console.error('搜索餐厅失败:', err);
+      var loading = document.getElementById('foodLoading');
+      var list = document.getElementById('foodList');
+      loading.style.display = 'none';
+      
+      // 友好错误提示
+      var errorMsg = '网络连接失败';
+      var errorIcon = '😔';
+      if (err.name === 'AbortError') {
+        errorMsg = '请求超时，请稍后重试';
+      }
+      
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:#999;">' + 
+                      '<div style="font-size:48px;margin-bottom:16px;">' + errorIcon + '</div>' + 
+                      '<div style="font-size:16px;margin-bottom:8px;">' + errorMsg + '</div>' + 
+                      '<div style="font-size:14px;color:#bbb;">提示：可在iPhone上测试此功能</div>' + 
+                      '</div>';
+      
+      // 添加"查看示例"按钮
+      list.innerHTML += '<div style="text-align:center;margin-top:20px;">' + 
+                       '<button onclick="window.useSampleData()" style="padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">📱 查看示例数据</button>' + 
+                       '</div>';
+    });
+  }
+  
+  // 根据当前位置搜索美食（FAB按钮功能）
+  window.findFoodByLocation = function() {
+    // 显示弹窗
+    openFoodModal();
+    
+    var loading = document.getElementById('foodLoading');
+    var list = document.getElementById('foodList');
+    loading.style.display = 'block';
+    list.innerHTML = '';
+    
+    // 获取当前位置
+    if (!navigator.geolocation) {
+      loading.style.display = 'none';
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:#999;">您的浏览器不支持定位功能</div>';
+      list.innerHTML += '<div style="text-align:center;margin-top:20px;"><button onclick="window.useSampleData()" style="padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">📱 查看示例数据</button></div>';
+      return;
+    }
+    
+    loading.textContent = '📍 正在获取您的位置...';
+    
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        loading.textContent = '🔍 正在搜索附近餐厅...';
+        
+        // 调用Overpass API
+        searchRestaurants(lat, lng);
+      },
+      function(error) {
+        console.error('获取位置失败:', error);
+        loading.style.display = 'none';
+        
+        var errorMsgs = {
+          1: '定位权限被拒绝，请在设置中允许访问位置',
+          2: '无法获取位置信息，请检查GPS是否开启',
+          3: '定位请求超时，请重试'
+        };
+        
+        var errorMsg = errorMsgs[error.code] || '定位失败，请重试';
+        
+        list.innerHTML = '<div style="text-align:center;padding:40px;color:#999;">' + 
+                        '<div style="font-size:48px;margin-bottom:16px;">📍</div>' + 
+                        '<div>' + errorMsg + '</div>' + 
+                        '</div>';
+        
+        list.innerHTML += '<div style="text-align:center;margin-top:20px;"><button onclick="window.useSampleData()" style="padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;">📱 查看示例数据</button></div>';
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000 // 5分钟内的缓存可用
+      }
+    );
+  };
+  
+  // 提供示例数据用于测试
+  window.useSampleData = function() {
+    var list = document.getElementById('foodList');
+    var loading = document.getElementById('foodLoading');
+    loading.style.display = 'none';
+    
+    var sampleRestaurants = [
+      { name: 'Trattoria Da Luigi', cuisine: '意大利菜', distance: 0.3, opening_hours: 'Mo-Su 12:00-15:00, 19:00-23:00', phone: '+39 081 123 4567', lat: 40.6280, lng: 14.3770 },
+      { name: 'Ristorante Il Buco', cuisine: '海鲜', distance: 0.5, opening_hours: 'Tu-Su 19:00-23:30', phone: '+39 081 234 5678', lat: 40.6290, lng: 14.3780 },
+      { name: 'Pizzeria Starita', cuisine: '披萨', distance: 0.8, opening_hours: 'Mo-Su 11:30-15:00, 18:30-24:00', phone: '+39 081 345 6789', lat: 40.6270, lng: 14.3760 },
+      { name: 'Osteria dei Sapori', cuisine: '地中海菜', distance: 1.2, opening_hours: 'Mo-Sa 12:00-14:30, 19:30-22:30', phone: '+39 081 456 7890', lat: 40.6260, lng: 14.3750 },
+      { name: 'Caffe Augusto', cuisine: '咖啡厅', distance: 0.2, opening_hours: 'Mo-Su 07:00-22:00', phone: '', lat: 40.6285, lng: 14.3775 }
+    ];
+    
+    renderRestaurants(sampleRestaurants);
+  };
+
+  // 解析餐厅数据
+  function parseRestaurantData(data, userLat, userLng) {
+    var restaurants = [];
+    
+    if (!data.elements) return restaurants;
+    
+    data.elements.forEach(function(el) {
+      if (el.type !== 'node' && el.type !== 'way') return;
+      
+      var tags = el.tags || {};
+      var name = tags.name || '未命名餐厅';
+      var cuisine = tags.cuisine || '未知菜系';
+      var openingHours = tags.opening_hours || '';
+      var phone = tags.phone || tags['contact:phone'] || '';
+      
+      // 获取坐标
+      var lat = el.lat || (el.center ? el.center.lat : null);
+      var lng = el.lon || (el.center ? el.center.lon : null);
+      
+      if (!lat || !lng) return;
+      
+      // 计算距离
+      var distance = haversine(userLat, userLng, lat, lng);
+      
+      restaurants.push({
+        name: name,
+        cuisine: cuisine,
+        opening_hours: openingHours,
+        phone: phone,
+        lat: lat,
+        lng: lng,
+        distance: distance
+      });
+    });
+    
+    return restaurants;
+  }
+
+  // Haversine公式计算距离 (km)
+  function haversine(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  // 判断当前是否营业（简化版）
+  function isOpenNow(openingHours) {
+    if (!openingHours) return 'unknown';
+    
+    try {
+      var now = new Date();
+      var italyNow = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 2 * 3600000);
+      var dayOfWeek = italyNow.getUTCDay(); // 0=周日, 1=周一, ..., 6=周六
+      var currentHour = italyNow.getUTCHours();
+      var currentMinute = italyNow.getUTCMinutes();
+      var currentTime = currentHour * 100 + Math.floor(currentMinute / 60) * 60; // 简化: 只精确到小时
+      
+      // 简化版解析：只处理几种常见格式
+      // 完整解析需要专门的库
+      
+      // 24/7
+      if (openingHours.includes('24/7')) return 'open';
+      
+      // Mo-Su XX:XX-XX:XX
+      var match = openingHours.match(/(?:Mo-Su|Mo-Sa|Tu-Su)\s+(\d{2}):(\d{2})-(\d{2}):(\d{2})/);
+      if (match) {
+        var openHour = parseInt(match[1]);
+        var openMin = parseInt(match[2]);
+        var closeHour = parseInt(match[3]);
+        var closeMin = parseInt(match[4]);
+        var openTime = openHour * 100 + openMin;
+        var closeTime = closeHour * 100 + closeMin;
+        var nowTime = currentHour * 100 + currentMinute;
+        
+        if (nowTime >= openTime && nowTime <= closeTime) return 'open';
+        else return 'closed';
+      }
+      
+      // 无法解析的格式
+      return 'unknown';
+    } catch(e) {
+      console.error('解析营业时间失败:', e);
+      return 'unknown';
+    }
+  }
+
+  // 渲染餐厅列表
+  function renderRestaurants(restaurants) {
+    var loading = document.getElementById('foodLoading');
+    var list = document.getElementById('foodList');
+    
+    loading.style.display = 'none';
+    
+    if (restaurants.length === 0) {
+      list.innerHTML = '<div style="padding: 40px 20px; text-align: center; color: var(--text-secondary);">附近没有找到餐厅</div>';
+      return;
+    }
+    
+    var html = '';
+    restaurants.forEach(function(r) {
+      var status = isOpenNow(r.opening_hours);
+      var statusClass = status === 'open' ? 'open' : (status === 'closed' ? 'closed' : 'unknown');
+      var statusText = status === 'open' ? '🟢 营业中' : (status === 'closed' ? '🔴 已打烊' : '⚪ 营业时间未知');
+      
+      html += `
+        <div class="restaurant-card">
+          <div class="rest-name">${escapeHtml(r.name)}</div>
+          <div class="rest-cuisine">${escapeHtml(r.cuisine)} · 📍 ${r.distance.toFixed(1)}km</div>
+          <div class="rest-status ${statusClass}">${statusText}</div>
+          <div class="rest-actions">
+            <button class="rest-action-btn nav" onclick="navigateToRestaurant('${escapeHtml(r.name)}', ${r.lat}, ${r.lng})">🗺️ 导航</button>
+            ${r.phone ? `<button class="rest-action-btn call" onclick="window.location.href='tel:${escapeHtml(r.phone)}'">📞 电话</button>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    
+    list.innerHTML = html;
+  }
+
+  // HTML转义
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // 打开Apple Maps导航
+  window.navigateToRestaurant = function(name, lat, lng) {
+    var url = `https://maps.apple.com/?q=${encodeURIComponent(name)}&ll=${lat},${lng}`;
+    window.open(url, '_blank');
+  };
+})();
 </script>
+
+<!-- 美食推荐弹窗 -->
+<div class="food-modal-overlay" id="foodModalOverlay" onclick="closeFoodModal()">
+  <div class="food-modal" id="foodModal" onclick="event.stopPropagation()">
+    <div class="food-modal-handle"></div>
+    <div class="food-modal-header">
+      <h3>🍝 附近美食</h3>
+      <button class="food-modal-close" onclick="closeFoodModal()">✕</button>
+    </div>
+    <div class="food-modal-loading" id="foodLoading">
+      🔍 正在搜索附近餐厅...
+    </div>
+    <div class="food-modal-body" id="foodList"></div>
+  </div>
+</div>
 
 </body>
 </html>
