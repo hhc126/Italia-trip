@@ -950,7 +950,7 @@
   .food-modal-handle {
     width: 36px;
     height: 4px;
-    background: #c7c7cc;
+    background: var(--border);
     border-radius: 2px;
     margin: 8px auto 0;
   }
@@ -959,28 +959,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 20px 16px;
+    padding: 20px 20px 16px;
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     background: var(--bg);
     z-index: 10;
-  }
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    animation: slideUp 0.3s ease;
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-
-  .food-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 20px 16px;
-    border-bottom: 1px solid var(--border);
   }
 
   .food-modal-header h3 {
@@ -993,7 +977,7 @@
     height: 32px;
     border-radius: 50%;
     border: none;
-    background: #e5e5ea;
+    background: var(--bg-secondary);
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -2733,8 +2717,29 @@
     'milan': []
   };
   
-  // 根据页面滚动位置判断当前城市
-  function getCurrentCity() {
+  // 城市坐标数据（用于GPS定位判断）
+  var cityCoordinates = {
+    'sorrento': { lat: 40.6263, lng: 14.3758, name: '索伦托' },
+    'rome': { lat: 41.9028, lng: 12.4964, name: '罗马' },
+    'florence': { lat: 43.7696, lng: 11.2558, name: '佛罗伦萨' },
+    'venice': { lat: 45.4408, lng: 12.3155, name: '威尼斯' },
+    'milan': { lat: 45.4642, lng: 9.1900, name: '米兰' }
+  };
+  
+  // 计算两个坐标之间的距离（Haversine公式，返回公里）
+  function calculateDistance(lat1, lng1, lat2, lng2) {
+    var R = 6371; // 地球半径（公里）
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+  
+  // 根据页面滚动位置判断城市（降级方案）
+  function getCityByScroll() {
     var cities = ['sorrento', 'rome', 'florence', 'venice', 'milan'];
     var scrollPos = window.scrollY + 100;
     
@@ -2746,7 +2751,46 @@
         }
       }
     }
-    return 'florence'; // 默认返回佛罗伦萨
+    return 'florence';
+  }
+  
+  // 获取当前城市（优先使用GPS定位）
+  function getCurrentCity(callback) {
+    // 如果有回调函数，使用GPS定位（异步）
+    if (callback && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          var lat = position.coords.latitude;
+          var lng = position.coords.longitude;
+          
+          // 计算到每个城市的距离
+          var minDistance = Infinity;
+          var closestCity = 'florence';
+          
+          for (var city in cityCoordinates) {
+            var coord = cityCoordinates[city];
+            var distance = calculateDistance(lat, lng, coord.lat, coord.lng);
+            
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestCity = city;
+            }
+          }
+          
+          console.log('GPS定位：您在' + cityCoordinates[closestCity].name + '附近（距离' + Math.round(minDistance) + '公里）');
+          callback(closestCity);
+        },
+        function(error) {
+          // GPS定位失败，使用页面滚动位置
+          console.log('GPS定位失败，使用页面位置判断城市');
+          callback(getCityByScroll());
+        },
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 300000 }
+      );
+    } else {
+      // 不使用GPS，直接根据页面滚动位置判断
+      return getCityByScroll();
+    }
   }
   
   // 切换美食标签页
@@ -2761,21 +2805,31 @@
       // 显示精选推荐
       var loading = document.getElementById('foodLoading');
       var list = document.getElementById('foodList');
-      loading.style.display = 'none';
+      loading.style.display = 'block';
+      loading.textContent = '📍 正在定位您所在城市...';
+      list.innerHTML = '';
       
-      // 根据当前城市显示精选餐厅
-      var currentCity = getCurrentCity();
-      var restaurants = curatedRestaurants[currentCity] || [];
-      
-      if (restaurants.length === 0) {
-        list.innerHTML = '<div style="padding: 40px 20px; text-align: center; color: var(--text-secondary);">' +
-                        '<div style="font-size: 48px; margin-bottom: 16px;">📝</div>' +
-                        '<div>该城市暂无精选餐厅</div>' +
-                        '<div style="font-size: 13px; margin-top: 8px; color: var(--text-tertiary);">您可以发送小红书链接给我，我会帮您添加到精选列表</div>' +
-                        '</div>';
-      } else {
-        renderCuratedRestaurants(restaurants);
-      }
+      // 使用GPS定位判断城市（异步）
+      getCurrentCity(function(currentCity) {
+        loading.style.display = 'none';
+        
+        // 根据当前城市显示精选餐厅
+        var restaurants = curatedRestaurants[currentCity] || [];
+        
+        // 显示当前城市名称
+        var cityName = cityCoordinates[currentCity] ? cityCoordinates[currentCity].name : '未知';
+        list.innerHTML = '<div style="padding: 12px 16px; font-size: 14px; color: var(--text-secondary); background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">📍 当前城市：' + cityName + '</div>';
+        
+        if (restaurants.length === 0) {
+          list.innerHTML += '<div style="padding: 40px 20px; text-align: center; color: var(--text-secondary);">' +
+                          '<div style="font-size: 48px; margin-bottom: 16px;">📝</div>' +
+                          '<div>该城市暂无精选餐厅</div>' +
+                          '<div style="font-size: 13px; margin-top: 8px; color: var(--text-tertiary);">您可以发送小红书链接给我，我会帮您添加到精选列表</div>' +
+                          '</div>';
+        } else {
+          renderCuratedRestaurants(restaurants);
+        }
+      });
     } else {
       // 切换到附近搜索
       searchNearbyFood();
